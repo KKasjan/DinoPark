@@ -5,17 +5,18 @@ from logic import calculate_possessed_sum, get_missing_amount
 
 
 def main():
-    for dino in park:
-        if not dino["golden_chest"]:
+    for name, dino_info in park.items():
+        if not dino_info["golden_chest"]:
             # 1. UI fetches data
-            user_counts = get_user_input(dino["name"])
+            user_counts = get_user_input(name)
+
             # 2. LOGIC calculates
             current_sum = calculate_possessed_sum(user_counts, BALANCES)
             missing = get_missing_amount(current_sum, TARGET)
             # 3. UI displayin
-            display_result(dino["name"], missing)
+            display_result(name, missing)
         else:
-            print(f"\n{dino['name']} has golden box - skipping.")
+            print(f"\n{name} has golden box - skipping.")
 
 
 if __name__ == "__main__":

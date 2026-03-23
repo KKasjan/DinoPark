@@ -1,141 +1,39 @@
-# List of dinosurs with their attributes and collection status
-park = [
-        {"name": "Ammonite",
-         "type": "Herbivore",
-         "golden_chest": True},
-        {"name": "Velociraptor",
-         "type": "Carnivore",
-         "golden_chest": True},
-        {"name": "Pterodactyl",
-         "type": "Carnivore",
-         "golden_chest": True},
-        {"name": "T-Rex",
-         "type": "Carnivore",
-         "golden_chest": False},
-        {"name": "Stegosaurus",
-         "type": "Herbivore",
-         "golden_chest": True},
-        {"name": "Oviraptor",
-         "type": "Herbivore",
-         "golden_chest": True},
-        {"name": "Triceratops",
-         "type": "Herbivore",
-         "golden_chest": True},
-        {"name": "Gallimimus",
-         "type": "Herbivore",
-         "golden_chest": True},
-        {"name": "Ankylosaurus",
-         "type": "Herbivore",
-         "golden_chest": False},
-        {"name": "Archaeopteryx",
-         "type": "Carnivore",
-         "golden_chest": True},
-        {"name": "Smilodon",
-         "type": "Carnivore",
-         "golden_chest": True},
-        {"name": "Mammoth",
-         "type": "Herbivore",
-         "golden_chest": False},
-        {"name": "Therizinosaurus",
-         "type": "Herbivore",
-         "golden_chest": False},
-        {"name": "Diplodocus",
-         "type": "Herbivore",
-         "golden_chest": False},
-        {"name": "Dimetrodon",
-         "type": "Carnivore",
-         "golden_chest": False},
-        {"name": "Parasaurolophus",
-         "type": "Herbivore",
-         "golden_chest": False},
-        {"name": "Protoceratops",
-         "type": "Herbivore",
-         "golden_chest": False},
-        {"name": "Iguanodon",
-         "type": "Herbivore",
-         "golden_chest": False},
-        {"name": "Amargasaurus",
-         "type": "Herbivore",
-         "golden_chest": False},
-        {"name": "Ceratosaurus",
-         "type": "Carnivore",
-         "golden_chest": False},
-        {"name": "Incisivosaurus",
-         "type": "Herbivore",
-         "golden_chest": False},
-        {"name": "Brachiosaurus",
-         "type": "Herbivore",
-         "golden_chest": False},
-        {"name": "Dacentrurus",
-         "type": "Herbivore",
-         "golden_chest": False},
-        {"name": "Allosaurus",
-         "type": "Carnivore",
-         "golden_chest": False},
-        {"name": "Shell-don",
-         "type": "Carnivore",
-         "golden_chest": False},
-        {"name": "Styracosaurus",
-         "type": "Herbivore",
-         "golden_chest": False},
-        {"name": "Plesiosaurus",
-         "type": "Carnivore",
-         "golden_chest": False},
-        {"name": "Kentrosaurus",
-         "type": "Herbivore",
-         "golden_chest": False},
-        {"name": "Carnotaurus",
-         "type": "Carnivore",
-         "golden_chest": False},
-        {"name": "Bulldosaurus",
-         "type": "Carnivore",
-         "golden_chest": False},
-        {"name": "Pterocopter",
-         "type": "Carnivore",
-         "golden_chest": False},
-        {"name": "Mechasaurus-Rex",
-         "type": "Carnivore",
-         "golden_chest": False},
-        {"name": "Yeti",
-         "type": "Carnivore",
-         "golden_chest": False},
-        {"name": "Azure Dragon",
-         "type": "Carnivore",
-         "golden_chest": False},
-        {"name": "Wawel Dragon",
-         "type": "Carnivore",
-         "golden_chest": False},
-        {"name": "Quetzalcoatlus",
-         "type": "Herbivore",
-         "golden_chest": False},
-        {"name": "Spinosaurus",
-         "type": "Carnivore",
-         "golden_chest": False},
-        {"name": "Kraken",
-         "type": "Carnivore",
-         "golden_chest": False},
-        {"name": "Unicorn",
-         "type": "Herbivore",
-         "golden_chest": False},
-        {"name": "Spike-o-tron",
-         "type": "Carnivore",
-         "golden_chest": False},
-        {"name": "Dunkleosteus",
-         "type": "Carnivore",
-         "golden_chest": False},
-        {"name": "Rhizodus",
-         "type": "Carnivore",
-         "golden_chest": False},
-        {"name": "Liopleurodon",
-         "type": "Carnivore",
-         "golden_chest": False},
-        {"name": "Lunaspis",
-         "type": "Carnivore",
-         "golden_chest": False},
-        {"name": "Megalodon",
-         "type": "Carnivore",
-         "golden_chest": False},
-        {"name": "Ichthyosaurus",
-         "type": "Carnivore",
-         "golden_chest": False},
-]
+import json
+import os
+
+
+def load_all_dinos():
+    file_path = "dino-data.json"
+
+    if not os.path.exists(file_path):
+        # Checking if the file exists at all
+        print(f"Error! {file_path} not found!")
+        return {}
+
+    with open(file_path, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def validate_park_data(data):
+    required_keys = ["golden_chest", "type", "levels"]
+    issues = []
+
+    for name, dino_info in park.items():
+        for key in required_keys:
+            if key not in dino_info:
+                issues.append(f"Dino {name} is missing required key")
+
+    if issues:
+        for issue in issues:
+            print(issue)
+        return False
+
+    print("Data validation passed: JSON is healthy")
+
+
+# The variable with data will be loaded dynamically
+park = load_all_dinos()
+is_data_valid = validate_park_data(park)
+
+if not is_data_valid:
+    print("Warning! App may crash due to invalid data!")

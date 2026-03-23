@@ -1,0 +1,324 @@
+{
+    "Ammonite": {
+        "type": "Herbivore",
+        "golden_chest": true,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Velociraptor": {
+        "type": "Carnivore",
+        "golden_chest": true,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Pterodactyl": {
+        "type": "Carnivore",
+        "golden_chest": true,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "T-Rex": {
+        "type": "Carnivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Stegosaurus": {
+        "type": "Herbivore",
+        "golden_chest": true,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Oviraptor": {
+        "type": "Herbivore",
+        "golden_chest": true,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Triceratops": {
+        "type": "Herbivore",
+        "golden_chest": true,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Gallimimus": {
+        "type": "Herbivore",
+        "golden_chest": true,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Ankylosaurus": {
+        "type": "Herbivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Archaeopteryx": {
+        "type": "Carnivore",
+        "golden_chest": true,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Smilodon": {
+        "type": "Carnivore",
+        "golden_chest": true,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Mammoth": {
+        "type": "Herbivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Therizinosaurus": {
+        "type": "Herbivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    }, 
+    "Diplodocus": {
+        "type": "Herbivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Dimetrodon": {
+        "type": "Carnivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Parasaurolophus": {
+        "type": "Herbivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Protoceratops": {
+        "type": "Herbivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Iguanodon": {
+        "type": "Herbivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Amargasaurus": {
+        "type": "Herbivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Ceratosaurus": {
+        "type": "Carnivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Incisivosaurus": {
+        "type": "Herbivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Brachiosaurus": {
+        "type": "Herbivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Dacentrurus": {
+        "type": "Herbivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Allosaurus": {
+        "type": "Carnivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Shell-don": {
+        "type": "Carnivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Styracosaurus": {
+        "type": "Herbivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Plesiosaurus": {
+        "type": "Carnivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Kentrosaurus": {
+        "type": "Herbivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Carnotaurus": {
+        "type": "Carnivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Bulldosaurus": {
+        "type": "Carnivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Pterocopter": {
+        "type": "Carnivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Mechasaurus-Rex": {
+        "type": "Carnivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Yeti": {
+        "type": "Carnivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Azure Dragon": {
+        "type": "Carnivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Wawel Dragon": {
+        "type": "Carnivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    }, 
+    "Quetzalcoatlus": {
+        "type": "Herbivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Spinosaurus": {
+        "type": "Carnivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Kraken": {
+        "type": "Carnivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Unicorn": {
+        "type": "Herbivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Spike-o-tron": {
+        "type": "Carnivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Dunkleosteus": {
+        "type": "Carnivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Rhizodus": {
+        "type": "Carnivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Liopleurodon": {
+        "type": "Carnivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Lunaspis": {
+        "type": "Carnivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Megalodon": {
+        "type": "Carnivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    },
+    "Ichthyosaurus": {
+        "type": "Carnivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0
+        }
+    }
+}
