@@ -18,7 +18,7 @@ def validate_park_data(data):
     required_keys = ["golden_chest", "type", "levels"]
     issues = []
 
-    for name, dino_info in park.items():
+    for name, dino_info in data.items():
         for key in required_keys:
             if key not in dino_info:
                 issues.append(f"Dino {name} is missing required key")
@@ -29,6 +29,7 @@ def validate_park_data(data):
         return False
 
     print("Data validation passed: JSON is healthy")
+    return True
 
 
 # The variable with data will be loaded dynamically

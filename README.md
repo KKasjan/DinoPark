@@ -43,8 +43,8 @@ python main.py
 ```
 
 ## 📈 Roadmap
-[ ] Add try...except blocks for input validation (Error handling).
+[x] Add try...except blocks for input validation (Error handling).
 
-[ ] Implement data persistence (Save/Load from JSON file).
+[x] Implement data persistence (Save/Load from JSON file).
 
 [ ] Add a Graphical User Interface (GUI) or a web-based dashboard.
