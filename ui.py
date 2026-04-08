@@ -6,13 +6,14 @@ def get_safe_number(prompt):
             # Conversion to integer
             value = int(user_input)
 
-            if value not in [0, 1]:
-                print("Wrong! The dino number should be between 0 and 1")
+            # The game allows for a maximum of 6 dinos in the enclosure
+            if value not in [0, 6]:
+                print("Wrong! The number of dinos should be between 0 and 6.")
                 continue
 
             return value
         except ValueError:
-            print("Invalid input! Please enter a digit (0 or 1).")
+            print("Invalid input! Please enter a number between 0 and 6.")
 
 
 # A function that collects data from the user about the number of dinos

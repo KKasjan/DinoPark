@@ -13,7 +13,7 @@ def main():
             # 2. LOGIC calculates
             current_sum = calculate_possessed_sum(user_counts, BALANCES)
             missing = get_missing_amount(current_sum, TARGET)
-            # 3. UI displayin
+            # 3. UI displaying
             display_result(name, missing)
         else:
             print(f"\n{name} has golden box - skipping.")

@@ -2,3 +2,11 @@ __pycache__/
 *.pyc
 .DS_Store
 .vscode/
+# Visual Studio junk
+.vs/
+*.sln
+*.slnx
+*.sqlite
+*.wsuo
+*.user
+*.cache
