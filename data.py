@@ -30,11 +30,3 @@ def validate_park_data(data):
 
     print("Data validation passed: JSON is healthy")
     return True
-
-
-# The variable with data will be loaded dynamically
-park = load_all_dinos()
-is_data_valid = validate_park_data(park)
-
-if not is_data_valid:
-    print("Warning! App may crash due to invalid data!")
