@@ -26,11 +26,11 @@ Tests are written using pytest.
 **How to run tests:**
 1. Install pytest (if not already installed):
    ```bash
-   pip install pytest
+pip install pytest
    ```
 2. Run tests from the root directory:
   ```bash
-  pytest
+pytest
   ```
 
 ## 🛠️ Technical Stack
