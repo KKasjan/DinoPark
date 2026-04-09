@@ -7,5 +7,11 @@ def calculate_possessed_sum(counts, balances):
 
 
 # Returns how much is missing (but not less than 0)
+# Normalize negative values to 0
 def get_missing_amount(possessed_sum, target):
-    return max(0, target - possessed_sum)
+    if possessed_sum < 0:
+        possessed_sum = 0
+
+    if possessed_sum >= target:
+        return 0
+    return target - possessed_sum

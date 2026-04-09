@@ -7,7 +7,7 @@ def get_safe_number(prompt):
             value = int(user_input)
 
             # The game allows for a maximum of 6 dinos in the enclosure
-            if value not in [0, 6]:
+            if value < 0 or value > 6:
                 print("Wrong! The number of dinos should be between 0 and 6.")
                 continue
 

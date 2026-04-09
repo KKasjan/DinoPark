@@ -6,7 +6,7 @@ A lightweight Python tool designed to automate the calculation of resources need
 - **Automated Calculations:** Converts various dinosaur levels (1-6) into base units (Level 1) using pre-defined balance rates.
 - **Dynamic Configuration:** Automatic target calculation based on balance settings.
 - **Collection Filtering:** Skips dinosaurs that already have a "Golden Chest".
-- **Unit Testing:** Integrated test suite for verifying core mathematical logic.
+- **Unit Testing:** Integrated test suite for verifying core mathematical logic and UI input validation.
   
 ## 📂 Project Structure
 - `main.py` - The central orchestrator that manages the application flow.
@@ -15,6 +15,7 @@ A lightweight Python tool designed to automate the calculation of resources need
 - `ui.py` - Handles all user interactions (input/output).
 - `data.py` - The database containing dinosaur attributes and statuses.
 - `test_logic.py` - Unit tests for core logic.
+- `test_ui.py` - Unit tests containing mock data for inputs
 
 ## 🧪 Testing
 The project includes unit tests to ensure the accuracy of the core calculation engine (logic.py).
@@ -67,7 +68,7 @@ python main.py
 
 [x] Add unit tests for core logic.
 
-[ ] Expand test coverage (UI input validation, edge cases)
+[x] Expand test coverage (UI input validation, edge cases)
 
 [ ] Implement data persistence (Save/Load from JSON file).
 
