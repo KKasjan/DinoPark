@@ -4,8 +4,19 @@ from data import load_all_dinos, validate_park_data
 from logic import calculate_possessed_sum, get_missing_amount
 
 
-def main():
-    # The variable with data will be loaded dynamically
+def main() -> None:
+    """
+    Main entry point of the application.
+
+    Loads dinosaur data from JSON, validates its structure, and then
+    processes each dinosaur that does not have a golden chest. For each
+    such dinosaur, the function collects user input, calculates the
+    current total value, determines how many units are missing to obtain
+    the totem, and displays the result.
+
+    Returns:
+    None
+    """
     park = load_all_dinos()
     if not validate_park_data(park):
         print("Warning! App may crash due to invalid data!")

@@ -1,5 +1,13 @@
-# A function that checks the correctness of the number entered by the user
-def get_safe_number(prompt):
+def get_safe_number(prompt: str) -> int:
+    """
+    Reads a number from user input and validates that it is between 0 and 6.
+
+    Parameters:
+    prompt (str): Text displayed to the user.
+
+    Returns:
+    int: A valid number between 0 and 6.
+    """
     while True:
         try:
             user_input = input(prompt)
@@ -16,22 +24,41 @@ def get_safe_number(prompt):
             print("Invalid input! Please enter a number between 0 and 6.")
 
 
-# A function that collects data from the user about the number of dinos
-# owned per level.
-def get_user_input(dino_name):
+def get_user_input(dino_name: str) -> dict[int, int]:
+    """
+    Collects the number of dinosaurs the user owns for each level (1–6).
+
+    The function displays a header with the dinosaur name and then
+    asks the user how many dinosaurs they have on each level, starting
+    from level 6 down to level 1. Input is validated using get_safe_number().
+
+    Parameters:
+    dino_name (str): Name of the dinosaur displayed in the prompt.
+
+    Returns:
+    dict[int, int]: A dictionary mapping level -> quantity.
+    """
     print(f"\n--- {dino_name.upper()} ---")
     counts = {}
     for lvl in range(6, 0, -1):
         counts[lvl] = get_safe_number(f"How many {dino_name} on lvl  {lvl}\
  you have:")
-        # counts[lvl] = int(input(f"How many {dino_name} on lvl  {lvl}\
-        # you have:"))
-    # return a "package" of data, not a finished result
+
     return counts
 
 
-# displaying results
-def display_result(dino_name, missing):
+def display_result(dino_name: str, missing: int) -> None:
+    """
+    Displays the result for a given dinosaur based on how many
+    units are missing.
+
+    Parameters:
+    dino_name (str): Name of the dinosaur.
+    missing (int): Number of units still needed to obtain the totem.
+
+    Returns:
+    None
+    """
     if missing > 0:
         print(f"{dino_name}: missing {missing}")
     else:
