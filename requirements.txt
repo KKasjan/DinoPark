@@ -1,1 +1,4 @@
 pytest
+ruff
+ruff[format]
+mypy

@@ -1,0 +1,32 @@
+# Maximum allowed line length
+line-length = 120
+
+# Target Python version
+target-version = "py312"
+
+# Enabled linting rule sets
+lint.select = [
+    "E",   # pycodestyle errors
+    "F",   # pyflakes errors
+    "W",   # pycodestyle warnings
+    "I",   # import sorting (isort)
+    "N",   # naming conventions
+    "UP",  # Python upgrade suggestions
+    "B",   # bugbear: common bugs and pitfalls
+    "C4",  # comprehension checks
+    "SIM", # code simplifications
+]
+
+# Paths to exclude from linting
+exclude = [
+    ".git",
+    ".github",
+    "__pycache__",
+    "venv",
+]
+
+# Formatter configuration
+[format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"

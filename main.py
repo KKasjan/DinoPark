@@ -1,7 +1,7 @@
-from config import TARGET, BALANCES
-from ui import get_user_input, display_result
+from config import BALANCES, TARGET
 from data import load_all_dinos, validate_park_data
 from logic import calculate_possessed_sum, get_missing_amount
+from ui import display_result, get_user_input
 
 
 def main() -> None:
