@@ -23,7 +23,7 @@ def test_calculate_possessed_sum_basic(
 def test_calculate_possessed_sum_multiple_levels(
     standard_balances: dict[int, int],
 ) -> None:
-    counts = {6: 1, 5: 1, 4: 1, 3: 1, 2: 1, 1: 1}
+    counts: dict[int, int] = {6: 1, 5: 1, 4: 1, 3: 1, 2: 1, 1: 1}
 
     # manual calculation:
     # 1*32 + 1*16 + 1*8 + 1*4 + 1*2 + 1*1 = 32 + 16 + 8 + 4 + 2 + 1 = 63
@@ -36,7 +36,7 @@ def test_calculate_possessed_sum_multiple_levels(
 def test_calculate_possessed_sum_empty(
     standard_balances: dict[int, int],
 ) -> None:
-    counts = {}
+    counts: dict[int, int] = {}
 
     assert calculate_possessed_sum(counts, standard_balances) == 0
 
