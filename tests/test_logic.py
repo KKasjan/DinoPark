@@ -1,6 +1,6 @@
 import pytest
 
-from logic import calculate_possessed_sum, get_missing_amount
+from dinopark.logic import calculate_possessed_sum, get_missing_amount
 
 
 @pytest.fixture

@@ -1,7 +1,7 @@
 import pytest
 from pytest import CaptureFixture, MonkeyPatch
 
-from ui import display_result, get_safe_number, get_user_input
+from dinopark.ui import display_result, get_safe_number, get_user_input
 
 
 # Test 1 - Mocking the correct input
