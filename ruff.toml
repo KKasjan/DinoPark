@@ -4,7 +4,6 @@ line-length = 79
 # Target Python version
 target-version = "py312"
 
-# Enabled linting rule sets
 [lint]
 select = [
     "E",
@@ -18,11 +17,6 @@ select = [
     "SIM",
 ]
 
-# Import sorting configuration (correct placement)
-[lint.isort]
-split-on-trailing-comma = false
-
-# Paths to exclude from linting
 exclude = [
     ".git",
     ".github",
@@ -30,7 +24,9 @@ exclude = [
     "venv",
 ]
 
-# Formatter configuration
+[lint.isort]
+split-on-trailing-comma = false
+
 [format]
 quote-style = "double"
 indent-style = "space"
