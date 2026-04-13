@@ -20,7 +20,8 @@ def load_all_dinos() -> dict[str, Any]:
         return {}
 
     with open(file_path, encoding="utf-8") as f:
-        return json.load(f)
+        data: dict[str, Any] = json.load(f)
+        return data
 
 
 def validate_park_data(data: dict[str, dict[str, Any]]) -> bool:
