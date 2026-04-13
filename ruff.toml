@@ -1,11 +1,12 @@
 # Maximum allowed line length
-line-length = 120
+line-length = 79
 
 # Target Python version
 target-version = "py312"
 
 # Enabled linting rule sets
-lint.select = [
+[lint]
+select = [
     "E",   # pycodestyle errors
     "F",   # pyflakes errors
     "W",   # pycodestyle warnings
@@ -30,3 +31,4 @@ exclude = [
 quote-style = "double"
 indent-style = "space"
 line-ending = "auto"
+skip-magic-trailing-comma = true

@@ -41,8 +41,10 @@ def get_user_input(dino_name: str) -> dict[int, int]:
     print(f"\n--- {dino_name.upper()} ---")
     counts = {}
     for lvl in range(6, 0, -1):
-        counts[lvl] = get_safe_number(f"How many {dino_name} on lvl  {lvl}\
- you have:")
+        counts[lvl] = get_safe_number(
+            f"How many {dino_name} on lvl  {lvl}\
+ you have:"
+        )
 
     return counts
 

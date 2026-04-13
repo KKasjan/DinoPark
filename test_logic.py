@@ -11,7 +11,7 @@ def standard_balances() -> dict[int, int]:
 # Test 1 - multiplication test for one level
 # Expected result:
 def test_calculate_possessed_sum_basic(
-    standard_balances: dict[int, int]
+    standard_balances: dict[int, int],
 ) -> None:
     counts: dict[int, int] = {6: 1, 5: 0, 4: 0, 3: 0, 2: 0, 1: 0}
 
@@ -21,7 +21,7 @@ def test_calculate_possessed_sum_basic(
 
 # Test 2 - multiplication test for multiple levels
 def test_calculate_possessed_sum_multiple_levels(
-    standard_balances: dict[int, int]
+    standard_balances: dict[int, int],
 ) -> None:
     counts = {6: 1, 5: 1, 4: 1, 3: 1, 2: 1, 1: 1}
 
@@ -34,7 +34,7 @@ def test_calculate_possessed_sum_multiple_levels(
 
 # Test 3 - multiplication test for missing data
 def test_calculate_possessed_sum_empty(
-    standard_balances: dict[int, int]
+    standard_balances: dict[int, int],
 ) -> None:
     counts = {}
 
@@ -54,16 +54,14 @@ def test_calculate_possessed_sum_empty(
     ],
 )
 def test_calculate_possessed_sum_param(
-    counts: dict[int, int],
-    expected: int,
-    standard_balances: dict[int, int]
+    counts: dict[int, int], expected: int, standard_balances: dict[int, int]
 ) -> None:
     assert calculate_possessed_sum(counts, standard_balances) == expected
 
 
 # Test 5 - Case with unknown level
 def test_calculate_possessed_sum_unknown_level(
-    standard_balances: dict[int, int]
+    standard_balances: dict[int, int],
 ) -> None:
     counts = {7: 1}
 
@@ -99,10 +97,9 @@ def test_missing_amount_large_negative_input() -> None:
 # Test 11 - Parameterized test of get_missing_amount
 @pytest.mark.parametrize(
     "possessed_sum, target, expected",
-    [(1, 63, 62), (63, 63, 0), (-1, 63, 63), (-999, 63, 63)])
+    [(1, 63, 62), (63, 63, 0), (-1, 63, 63), (-999, 63, 63)],
+)
 def test_get_missing_amount_parametrized(
-    possessed_sum: int,
-    target: int,
-    expected: int
+    possessed_sum: int, target: int, expected: int
 ) -> None:
     assert get_missing_amount(possessed_sum, target) == expected

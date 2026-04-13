@@ -1,6 +1,5 @@
 def calculate_possessed_sum(
-    counts: dict[int, int],
-    balances: dict[int, int]
+    counts: dict[int, int], balances: dict[int, int]
 ) -> int:
     """
     Calculates the total number of units you have by converting dinosaur
@@ -20,10 +19,7 @@ def calculate_possessed_sum(
     return total
 
 
-def get_missing_amount(
-    possessed_sum: int,
-    target: int
-) -> int:
+def get_missing_amount(possessed_sum: int, target: int) -> int:
     """
     Calculates the missing number of dinosaurs to obtain the totem.
 
