@@ -7,15 +7,15 @@ target-version = "py312"
 # Enabled linting rule sets
 [lint]
 select = [
-    "E",   # pycodestyle errors
-    "F",   # pyflakes errors
-    "W",   # pycodestyle warnings
-    "I",   # import sorting (isort)
-    "N",   # naming conventions
-    "UP",  # Python upgrade suggestions
-    "B",   # bugbear: common bugs and pitfalls
-    "C4",  # comprehension checks
-    "SIM", # code simplifications
+    "E",
+    "F",
+    "W",
+    "I",
+    "N",
+    "UP",
+    "B",
+    "C4",
+    "SIM",
 ]
 
 # Paths to exclude from linting
@@ -32,3 +32,7 @@ quote-style = "double"
 indent-style = "space"
 line-ending = "auto"
 skip-magic-trailing-comma = true
+
+# Import sorting configuration (required to avoid conflict)
+[isort]
+split-on-trailing-comma = false
