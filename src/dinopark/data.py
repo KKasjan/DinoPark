@@ -1,6 +1,7 @@
 import json
 import os
-from typing import Any
+from typing import Any, Dict
+from pathlib import Path
 
 
 def load_all_dinos() -> dict[str, Any]:
@@ -12,17 +13,44 @@ def load_all_dinos() -> dict[str, Any]:
     Returns:
     dict[str, Any]: Parsed JSON data containing dinosaur definitions.
     """
-    file_path = "dino-data.json"
+    file_path = Path(__file__).parent / "dino-data.json"
 
     # Checking if the file exists at all
-    if not os.path.exists(file_path):
+    if not file_path.exists():
         print(f"Error! {file_path} not found!")
         return {}
 
-    with open(file_path, encoding="utf-8") as f:
+    with file_path.open("r", encoding="utf-8") as f:
         data: dict[str, Any] = json.load(f)
         return data
 
+
+def save_all_dinos(data: Dict[str, Any]) -> None:
+    """
+    Saves the entire dinosaur dataset back to dino-data.json
+    """
+    file_path = Path(__file__).parent / "dino-data.json"
+
+    with file_path.open("w", encoding="utf-8") as f:
+        json.dump(data, f, indent=4, ensure_ascii=False)
+
+
+def update_dino_level(dino_key: str, level: str, amount: str) -> None:
+    """
+    Updates only ONE value for a selected dinosaur
+    """
+    data = load_all_dinos()
+
+    if dino_key not in data:
+        raise ValueError(f"Dino '{dino_key}' not found in dino-data.json")
+    
+    if level not in data[dino_key]["levels"]:
+        raise ValueError(f"Level '{level}' not valid for dino '{dino_key}'")
+    
+    data[dino_key]["levels"][level] = amount
+
+    save_all_dinos(data)
+    
 
 def validate_park_data(data: dict[str, dict[str, Any]]) -> bool:
     """

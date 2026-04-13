@@ -1,3 +1,5 @@
+from typing import Dict
+
 def get_safe_number(prompt: str) -> int:
     """
     Reads a number from user input and validates that it is between 0 and 6.
@@ -24,6 +26,16 @@ def get_safe_number(prompt: str) -> int:
             print("Invalid input! Please enter a number between 0 and 6.")
 
 
+def confirm(prompt: str) -> bool:
+    while True:
+        answer = input(f"{prompt} (y/n): ").strip().lower()
+        if answer in ("y", "yes"):
+            return True
+        if answer in ("n", "no"):
+            return False
+        print("Please enter y od n.")
+
+
 def get_user_input(dino_name: str) -> dict[int, int]:
     """
     Collects the number of dinosaurs the user owns for each level (1–6).
@@ -40,6 +52,7 @@ def get_user_input(dino_name: str) -> dict[int, int]:
     """
     print(f"\n--- {dino_name.upper()} ---")
     counts = {}
+
     for lvl in range(6, 0, -1):
         counts[lvl] = get_safe_number(
             f"How many {dino_name} on lvl  {lvl}\
@@ -65,3 +78,24 @@ def display_result(dino_name: str, missing: int) -> None:
         print(f"{dino_name}: missing {missing}")
     else:
         print(f"{dino_name}: ready for totem!")
+
+
+def choose_dino(dinos: Dict[str, dict]) -> str:
+    """
+    Displays a list of dinosaurs and returns the selected key.
+    """
+    print("\nChoose a dinosaur to complete:\n")
+          
+    keys = list(dinos.keys())
+
+    for i, key in enumerate(keys, start=1):
+        print(f"{i}. {key}")
+
+    while True:
+        try:
+            choice = int(input("\nSelect number: ")) - 1
+            if 0 <= choice < len(keys):
+                return keys[choice]
+            print("Incorrect number! Try again.")
+        except ValueError:
+            print("Enter the number.")
