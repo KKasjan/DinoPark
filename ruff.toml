@@ -18,6 +18,10 @@ select = [
     "SIM",
 ]
 
+# Import sorting configuration (correct placement)
+[lint.isort]
+split-on-trailing-comma = false
+
 # Paths to exclude from linting
 exclude = [
     ".git",
@@ -32,7 +36,3 @@ quote-style = "double"
 indent-style = "space"
 line-ending = "auto"
 skip-magic-trailing-comma = true
-
-# Import sorting configuration (required to avoid conflict)
-[isort]
-split-on-trailing-comma = false
