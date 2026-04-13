@@ -25,19 +25,31 @@ It is part of my learning path toward becoming an Automation QA Engineer.
 - **Unit Testing:** Integrated test suite for verifying core mathematical logic and UI input validation.
   
 ## 📂 Project Structure 
-(This structure will be updated after the planned project migration.)
-- `main.py` - The central orchestrator that manages the application flow.
-- `config.py` - Global settings and dynamic calculation constants.
-- `logic.py` - The calculation engine (pure mathematical functions).
-- `ui.py` - Handles all user interactions (input/output).
-- `data.py` - The database containing dinosaur attributes and statuses.
-- `test_logic.py` - Unit tests for core logic.
-- `test_ui.py` - Unit tests containing mock data for inputs
-- `.github/workflows/ci.yml` – GitHub Actions pipeline running tests, linting, formatting, and static analysis.
-- `.pre-commit-config.yaml` – Configuration for pre-commit hooks (Ruff, formatting, linting before each commit).
-- `mypy.ini` – Static type checking configuration for mypy.
-- `requirements.txt` – List of Python dependencies required to run the project.
-- `ruff.toml` – Configuration for Ruff (linting + formatting rules).
+
+```
+DinoPark/
+│
+├── src/
+│   └── dinopark/
+│       ├── __init__.py
+│       ├── main.py          # Application entry point
+│       ├── logic.py         # Core mathematical engine
+│       ├── ui.py            # User input/output handling
+│       ├── data.py          # Dino data loading & filtering
+│       ├── config.py        # Global constants & balance settings
+│       └── dino-data.json   # Dinosaur definitions & statuses
+│
+├── tests/
+│   ├── test_logic.py        # Unit tests for logic
+│   └── test_ui.py           # Unit tests for UI validation
+│
+├── .github/workflows/ci.yml # CI pipeline (pytest, mypy, Ruff)
+├── .pre-commit-config.yaml  # Pre-commit hooks
+├── mypy.ini                 # Static type checking config
+├── ruff.toml                # Linting & formatting rules
+├── requirements.txt         # Dependencies
+└── README.md
+```
 
 ## 🔄 Continuous Integration (CI)
 The project uses GitHub Actions to automatically run:
@@ -47,7 +59,7 @@ The project uses GitHub Actions to automatically run:
 - linting (`ruff check`)
 - formatting (`ruff format --check`)
 
-Each push and pull request triggers a pipeline that must pass for changes to be accepted.
+Every push and pull request must pass the pipeline.
 
 ## 🧪 Testing
 The project includes unit tests to ensure the accuracy of the core calculation engine (logic.py).
@@ -67,21 +79,34 @@ pytest
 ```
 
 ## 🛠️ Technical Stack
-- **Language:** Python 3.x
+- **Language:** Python 3.12+
 - **Concepts used:** Modular Programming (File Separation), Data Isolation, Logic Decoupling.
-- **Architecture:** Separation of concerns (UI, Logic, Data, Config).
+- **Architecture:** Modular, layered design (UI → Logic → Data)
 - **Testing Framework:** Pytest
+- **Static Analysis:** mypy
+- **Linting & Formating:** Ruff
+- **CI/CD:** GitHub Actions
 
 ## 📋 How It Works
 The application follows a modular data processing pipeline:
 
-1. Data Extraction: The main controller fetches dinosaur records from data.py, filtering out those with a "Golden Chest".
-2. User Input: For active targets, ui.py prompts the user for the quantity of units at each level (6 to 1).
-3. Core Logic: The logic.py module calculates the total value in "Level 1" units using balances from config.py.
-4. Result Presentation: The final missing amount is calculated and displayed back to the user via the UI module.
+1. **Data Loading:**  
+`data.py` loads dinosaur definitions from `dino-data.json` and filters out completed ones.
+2. **User Input:**  
+`ui.py` prompts the user for the number of units at each level (1–6).
+3. **Core Logic:**  
+`logic.py` converts all units to Level 1 equivalents using exponential scaling.
+4. **Result Output:**  
+The missing amount is calculated and displayed.
 
 **Conversion Logic:**
-- The system uses a base-2 exponential scaling (where Level 6 = 32 units). The TARGET is dynamically set to a full totem value (Level 7 equivalent minus 1).
+Level scaling uses base‑2 exponential growth:
+- Level 1 = 1
+- Level 2 = 2
+- Level 3 = 4
+- Level 4 = 8
+- Level 5 = 16
+- Level 6 = 32
 
 ## 📦 Requirements
 - Python 3.12+
@@ -96,7 +121,7 @@ git clone https://github.com/KKasjan/DinoPark.git
 **Run the script:**
 
 ```Bash
-python main.py
+python -m dinopark.main
 ```
 
 ## 🔮 Future Enhancements
@@ -105,6 +130,7 @@ python main.py
 - GUI version (Tkinter / PySide)
 - Export results to JSON/CSV
 - Visualization of progress (charts)
+- Persistent user data (save/load)
 
 ## 📈 Roadmap
 [x] Add try...except blocks for input validation (Error handling).
@@ -116,6 +142,8 @@ python main.py
 [x] Add Ruff formatting & linting
 
 [x] Add mypy static type checking
+
+[x] Migrate to src/ project structure
 
 [ ] Implement data persistence (Save/Load from JSON file).
 
