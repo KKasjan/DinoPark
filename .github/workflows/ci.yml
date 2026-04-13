@@ -21,13 +21,17 @@ jobs:
           pip install pytest
 
       - name: Run Ruff (lint)
+        working-directory: .
         run: ruff check .
 
       - name: Run Ruff (format check)
+        working-directory: .
         run: ruff format --check .
 
       - name: Run mypy
+        working-directory: .
         run: mypy .
 
       - name: Run tests
+        working-directory: .
         run: pytest
