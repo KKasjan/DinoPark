@@ -1,6 +1,7 @@
 import pytest
-from dinopark.ui import display_result, get_safe_number, get_user_input
 from pytest import CaptureFixture, MonkeyPatch
+
+from dinopark.ui import display_result, get_safe_number, get_user_input
 
 
 def test_get_safe_number_valid(monkeypatch: MonkeyPatch) -> None:
@@ -13,9 +14,7 @@ def test_get_safe_number_out_of_range(
 ) -> None:
     inputs = iter(["7", "3"])
     monkeypatch.setattr("builtins.input", lambda _: next(inputs))
-
     result = get_safe_number("Enter: ")
-
     captured = capsys.readouterr()
     assert "Wrong!" in captured.out
     assert result == 3
@@ -26,9 +25,7 @@ def test_get_safe_number_invalid_input(
 ) -> None:
     inputs = iter(["abc", "2"])
     monkeypatch.setattr("builtins.input", lambda _: next(inputs))
-
     result = get_safe_number("Enter: ")
-
     captured = capsys.readouterr()
     assert "Invalid input!" in captured.out
     assert result == 2
@@ -39,9 +36,7 @@ def test_get_safe_number_multiple_invalid_inputs(
 ) -> None:
     inputs = iter(["abc", "7", "-1", "3"])
     monkeypatch.setattr("builtins.input", lambda _: next(inputs))
-
     result = get_safe_number("Enter: ")
-
     captured = capsys.readouterr()
     assert "Invalid input!" in captured.out
     assert "Wrong!" in captured.out
@@ -71,9 +66,7 @@ def test_display_result_ready(capsys: CaptureFixture[str]) -> None:
 def test_get_user_input(monkeypatch: MonkeyPatch) -> None:
     inputs = iter(["1", "2", "3", "4", "5", "6"])
     monkeypatch.setattr("builtins.input", lambda _: next(inputs))
-
     result = get_user_input(
-        "Dimetrodon", {"6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0},
+        "Dimetrodon", {"6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0}
     )
-
     assert result == {"6": 1, "5": 2, "4": 3, "3": 4, "2": 5, "1": 6}
