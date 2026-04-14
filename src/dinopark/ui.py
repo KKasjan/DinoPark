@@ -1,5 +1,3 @@
-from typing import Dict
-
 def get_safe_number(prompt: str) -> int:
     """
     Reads a number from user input and validates that it is between 0 and 6.
@@ -80,12 +78,12 @@ def display_result(dino_name: str, missing: int) -> None:
         print(f"{dino_name}: ready for totem!")
 
 
-def choose_dino(dinos: Dict[str, dict]) -> str:
+def choose_dino(dinos: dict[str, dict]) -> str:
     """
     Displays a list of dinosaurs and returns the selected key.
     """
     print("\nChoose a dinosaur to complete:\n")
-          
+
     keys = list(dinos.keys())
 
     for i, key in enumerate(keys, start=1):

@@ -1,7 +1,6 @@
 import json
-import os
-from typing import Any, Dict
 from pathlib import Path
+from typing import Any
 
 
 def load_all_dinos() -> dict[str, Any]:
@@ -25,7 +24,7 @@ def load_all_dinos() -> dict[str, Any]:
         return data
 
 
-def save_all_dinos(data: Dict[str, Any]) -> None:
+def save_all_dinos(data: dict[str, Any]) -> None:
     """
     Saves the entire dinosaur dataset back to dino-data.json
     """
@@ -43,14 +42,14 @@ def update_dino_level(dino_key: str, level: str, amount: str) -> None:
 
     if dino_key not in data:
         raise ValueError(f"Dino '{dino_key}' not found in dino-data.json")
-    
+
     if level not in data[dino_key]["levels"]:
         raise ValueError(f"Level '{level}' not valid for dino '{dino_key}'")
-    
+
     data[dino_key]["levels"][level] = amount
 
     save_all_dinos(data)
-    
+
 
 def validate_park_data(data: dict[str, dict[str, Any]]) -> bool:
     """

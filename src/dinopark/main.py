@@ -1,13 +1,7 @@
 from dinopark.config import BALANCES, TARGET
-from dinopark.data import load_all_dinos, validate_park_data, update_dino_level
+from dinopark.data import load_all_dinos, update_dino_level
 from dinopark.logic import calculate_possessed_sum, get_missing_amount
-from dinopark.ui import (
-    display_result,
-    choose_dino,
-    get_safe_number,
-    get_user_input,
-    confirm
-)
+from dinopark.ui import choose_dino, confirm, display_result, get_user_input
 
 
 def main() -> None:
@@ -29,7 +23,7 @@ def main() -> None:
     if not dinos:
         print("Error! No dinosaur data found!")
         return
-    
+
     # Step 1 - Choose dinosaur
     dino_key = choose_dino(dinos)
     print(f"\nSelected dinosaur: {dino_key}")
@@ -41,7 +35,7 @@ def main() -> None:
     if has_existing:
         print("\nExisting data found: ")
         for lvl, val in current_levels.items():
-            print(f"Level {lvl}: {lvl}")
+            print(f"Level {lvl}: {val}")
 
         if confirm("Do you want update these values?"):
             new_data = get_user_input(dino_key)
