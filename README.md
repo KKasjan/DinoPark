@@ -141,6 +141,71 @@ git clone https://github.com/KKasjan/DinoPark.git
 python -m dinopark.main
 ```
 
+## 📄 Example dino-data.json
+
+This file defines all dinosaurs available in the calculator.
+It must be located in:
+
+src/dinopark/dino-data.json
+
+Each dinosaur entry must contain:
+- **type** — category or description (not used in calculations)
+- **golden_chest** — bonus flag (0 or 1)
+- **levels** — dictionary of all dinosaur levels, where:
+    - keys are strings ("6", "5", "4"…)
+    - values are integers representing how many units you own
+
+### ✔ Minimal valid example
+
+```json
+{
+    "ammonite": {
+        "type": "herbivore",
+        "golden_chest": true,
+        "levels": {
+            "6": 0,
+            "5": 0,
+            "4": 0,
+            "3": 0,
+            "2": 0,
+            "1": 0
+        }
+    },
+    "t_rex": {
+        "type": "carnivore",
+        "golden_chest": false,
+        "levels": {
+            "6": 0,
+            "5": 0,
+            "4": 0,
+            "3": 0,
+            "2": 0,
+            "1": 0
+        }
+    }
+}
+```
+
+### 🔍 Notes
+
+- Level keys must be strings, because JSON does not support numeric keys.
+- You can add more dinosaurs by adding new top‑level entries.
+- You can add more levels (e.g., "7") — the app will automatically detect them thanks to dynamic UI.
+- If any required field is missing, the app will stop and show a validation error.
+
+###  🧪 Validation
+
+On startup, the app checks:
+- whether the file exists,
+- whether each dinosaur contains type, golden_chest, and levels,
+- whether levels is a dictionary.
+
+If validation fails, you’ll see:
+
+```text
+Invalid JSON structure. Fix dino-data.json and try again.
+```
+
 ## 🔮 Future Enhancements
 
 - Web API using Flask

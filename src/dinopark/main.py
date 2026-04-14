@@ -33,11 +33,15 @@ def main() -> None:
             print(f"Level {lvl}: {val}")
 
         if confirm("Do you want update these values?"):
-            new_data = get_user_input(dino_key)
+            new_data = get_user_input(dino_key, current_levels)
         else:
-            new_data = {int(k): v for k, v in current_levels.items()}
+            sorted_keys = sorted(current_levels.keys(), key=int, reverse=True)
+            new_data = {
+                int(k): current_levels[k]
+                for k in sorted_keys
+            }
     else:
-        new_data = get_user_input(dino_key)
+        new_data = get_user_input(dino_key, current_levels)
 
     # Step 3 - Save all levels
     for lvl, amount in new_data.items():

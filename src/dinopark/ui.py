@@ -34,27 +34,25 @@ def confirm(prompt: str) -> bool:
         print("Please enter y od n.")
 
 
-def get_user_input(dino_name: str) -> dict[int, int]:
+def get_user_input(
+    dino_name: str,
+    levels: dict[str, int]
+) -> dict[int, int]:
     """
     Collects the number of dinosaurs the user owns for each level (1–6).
 
-    The function displays a header with the dinosaur name and then
-    asks the user how many dinosaurs they have on each level, starting
-    from level 6 down to level 1. Input is validated using get_safe_number().
-
-    Parameters:
-    dino_name (str): Name of the dinosaur displayed in the prompt.
-
-    Returns:
-    dict[int, int]: A dictionary mapping level -> quantity.
+    The function dynamically reads available levels from the JSON data,
+    so it does not depend on a hardcoded range.
     """
     print(f"\n--- {dino_name.upper()} ---")
     counts: dict[int, int] = {}
 
-    for lvl in range(6, 0, -1):
+    # Sort levels numerically (e.g. "6", "5", "4"...)
+    sorted_levels = sorted(levels.keys(), key=lambda x: int(x), reverse=True)
+
+    for lvl in sorted_levels:
         counts[lvl] = get_safe_number(
-            f"How many {dino_name} on lvl  {lvl}\
- you have:"
+            f"How many {dino_name} on lvl  {lvl} you have:"
         )
 
     return counts

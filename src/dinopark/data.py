@@ -1,11 +1,10 @@
 import json
-from pathlib import Path
 from typing import Any
 
-DATA_FILE = Path(__file__).parent / "dino-data.json"
+from dinopark.config import DATA_FILE
 
 
-def load_all_dinos() -> dict[str, Any]:
+def load_all_dinos() -> dict[str, dict[str, Any]]:
     """
     Loads dinosaur data from the JSON file 'dino-data.json'.
     """
@@ -18,7 +17,7 @@ def load_all_dinos() -> dict[str, Any]:
         return data
 
 
-def save_all_dinos(data: dict[str, Any]) -> None:
+def save_all_dinos(data: dict[str, dict[str, Any]]) -> None:
     """
     Saves the entire dinosaur dataset back to dino-data.json
     """
@@ -61,5 +60,4 @@ def validate_park_data(data: dict[str, dict[str, Any]]) -> bool:
             print(issue)
         return False
 
-    print("Data validation passed: JSON is healthy")
     return True
