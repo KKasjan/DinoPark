@@ -8,18 +8,14 @@ DATA_FILE = Path(__file__).parent / "dino-data.json"
 def load_all_dinos() -> dict[str, Any]:
     """
     Loads dinosaur data from the JSON file 'dino-data.json'.
-
-    If the file does not exist, an empty dictionary is returned.
-
-    Returns:
-    dict[str, Any]: Parsed JSON data containing dinosaur definitions.
     """
     # Checking if the file exists at all
     if not DATA_FILE.exists():
         raise FileNotFoundError("dino-data.json not found!")
 
-    with DATA_FILE.open("r", encoding="utf-8") as f:
-        return json.load(f)
+    with open(DATA_FILE, encoding="utf-8") as f:
+        data: dict[str, dict[str, Any]] = json.load(f)
+        return data
 
 
 def save_all_dinos(data: dict[str, Any]) -> None:
@@ -51,16 +47,6 @@ def update_dino_level(dino_key: str, level: str, amount: int) -> None:
 def validate_park_data(data: dict[str, dict[str, Any]]) -> bool:
     """
     Validates the structure of dinosaur data loaded from JSON.
-
-    Checks whether each dinosaur entry contains the required keys:
-    'golden_chest', 'type', and 'levels'.
-
-    Parameters:
-        data (dict[str, dict[str, Any]]): Parsed JSON data where each key
-            is a dinosaur name and each value is a dictionary of attributes.
-
-    Returns:
-        bool: True if the data is valid, False otherwise.
     """
     required_keys = ["golden_chest", "type", "levels"]
     issues = []

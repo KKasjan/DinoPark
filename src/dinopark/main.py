@@ -7,20 +7,11 @@ from dinopark.ui import choose_dino, confirm, display_result, get_user_input
 def main() -> None:
     """
     Main entry point of the application.
-
-    Loads dinosaur data from JSON, validates its structure, and then
-    processes each dinosaur that does not have a golden chest. For each
-    such dinosaur, the function collects user input, calculates the
-    current total value, determines how many units are missing to obtain
-    the totem, and displays the result.
-
-    Returns:
-    None
     """
-
     dinos = load_all_dinos()
 
-    if not validate_park_data():
+    # Validate JSON structure
+    if not validate_park_data(dinos):
         print("Invalid JSON structure. Fix dino-data.json and try again.")
         return
 
@@ -31,6 +22,7 @@ def main() -> None:
     # Step 1 - Choose dinosaur
     dino_key = choose_dino(dinos)
     print(f"\nSelected dinosaur: {dino_key}")
+
     current_levels = dinos[dino_key]["levels"]
     has_existing = any(value > 0 for value in current_levels.values())
 
