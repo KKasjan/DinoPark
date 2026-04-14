@@ -49,7 +49,7 @@ def get_user_input(dino_name: str) -> dict[int, int]:
     dict[int, int]: A dictionary mapping level -> quantity.
     """
     print(f"\n--- {dino_name.upper()} ---")
-    counts = {}
+    counts: dict[int, int] = {}
 
     for lvl in range(6, 0, -1):
         counts[lvl] = get_safe_number(

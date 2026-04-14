@@ -1,5 +1,5 @@
 from dinopark.config import BALANCES, TARGET
-from dinopark.data import load_all_dinos, update_dino_level
+from dinopark.data import load_all_dinos, update_dino_level, validate_park_data
 from dinopark.logic import calculate_possessed_sum, get_missing_amount
 from dinopark.ui import choose_dino, confirm, display_result, get_user_input
 
@@ -20,6 +20,10 @@ def main() -> None:
 
     dinos = load_all_dinos()
 
+    if not validate_park_data():
+        print("Invalid JSON structure. Fix dino-data.json and try again.")
+        return
+
     if not dinos:
         print("Error! No dinosaur data found!")
         return
@@ -28,10 +32,9 @@ def main() -> None:
     dino_key = choose_dino(dinos)
     print(f"\nSelected dinosaur: {dino_key}")
     current_levels = dinos[dino_key]["levels"]
-
-    # Step 2 - Check if user already has data
     has_existing = any(value > 0 for value in current_levels.values())
 
+    # Step 2 - Check if user already has data
     if has_existing:
         print("\nExisting data found: ")
         for lvl, val in current_levels.items():

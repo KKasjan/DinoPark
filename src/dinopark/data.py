@@ -2,6 +2,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+DATA_FILE = Path(__file__).parent / "dino-data.json"
+
 
 def load_all_dinos() -> dict[str, Any]:
     """
@@ -12,29 +14,24 @@ def load_all_dinos() -> dict[str, Any]:
     Returns:
     dict[str, Any]: Parsed JSON data containing dinosaur definitions.
     """
-    file_path = Path(__file__).parent / "dino-data.json"
-
     # Checking if the file exists at all
-    if not file_path.exists():
-        print(f"Error! {file_path} not found!")
-        return {}
+    if not DATA_FILE.exists():
+        raise FileNotFoundError("dino-data.json not found!")
 
-    with file_path.open("r", encoding="utf-8") as f:
-        data: dict[str, Any] = json.load(f)
-        return data
+    with DATA_FILE.open("r", encoding="utf-8") as f:
+        return json.load(f)
 
 
 def save_all_dinos(data: dict[str, Any]) -> None:
     """
     Saves the entire dinosaur dataset back to dino-data.json
     """
-    file_path = Path(__file__).parent / "dino-data.json"
 
-    with file_path.open("w", encoding="utf-8") as f:
-        json.dump(data, f, indent=4, ensure_ascii=False)
+    with DATA_FILE.open("w", encoding="utf-8") as f:
+        json.dump(data, f, indent=4)
 
 
-def update_dino_level(dino_key: str, level: str, amount: str) -> None:
+def update_dino_level(dino_key: str, level: str, amount: int) -> None:
     """
     Updates only ONE value for a selected dinosaur
     """
