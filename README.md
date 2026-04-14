@@ -6,23 +6,26 @@
 A lightweight Python tool designed to automate the calculation of resources needed to complete "Totems" in the Dino Park game. It helps players track their progress and identifies exactly how many level 1 units are missing for each dinosaur.
 
 ## 🎯 Purpose
+
 This project was created as a practical exercise in:
 
 - modular architecture,
 - automated testing,
 - static code analysis,
 - CI/CD,
-- working with JSON,
+- JSON data persistence,
 - and general development workflow.
 
 It is part of my learning path toward becoming an Automation QA Engineer.
 
 ## 🚀 Features
+
+- **Full-Level Input (6→1):** Enter all dinosaur levels in one flow.
+- **Data Persistence:** Automatically saves each dinosaur’s levels to `dino-data.json`.
+- **Existing Data Detection:** If a dinosaur already has saved levels, the app asks 
 - **Modular Architecture:** Clean separation between logic, data, and user interface.
 - **Automated Calculations:** Converts various dinosaur levels (1-6) into base units (Level 1) using pre-defined balance rates.
-- **Dynamic Configuration:** Automatic target calculation based on balance settings.
-- **Collection Filtering:** Skips dinosaurs that already have a "Golden Chest".
-- **Unit Testing:** Integrated test suite for verifying core mathematical logic and UI input validation.
+- **Unit Testing:** Integrated test suite for core logic and input validation.
   
 ## 📂 Project Structure 
 
@@ -52,6 +55,7 @@ DinoPark/
 ```
 
 ## 🔄 Continuous Integration (CI)
+
 The project uses GitHub Actions to automatically run:
 
 - tests (`pytest`)
@@ -80,7 +84,6 @@ pytest
 
 ## 🛠️ Technical Stack
 - **Language:** Python 3.12+
-- **Concepts used:** Modular Programming (File Separation), Data Isolation, Logic Decoupling.
 - **Architecture:** Modular, layered design (UI → Logic → Data)
 - **Testing Framework:** Pytest
 - **Static Analysis:** mypy
@@ -88,25 +91,39 @@ pytest
 - **CI/CD:** GitHub Actions
 
 ## 📋 How It Works
-The application follows a modular data processing pipeline:
 
-1. **Data Loading:**  
-`data.py` loads dinosaur definitions from `dino-data.json` and filters out completed ones.
-2. **User Input:**  
-`ui.py` prompts the user for the number of units at each level (1–6).
-3. **Core Logic:**  
-`logic.py` converts all units to Level 1 equivalents using exponential scaling.
-4. **Result Output:**  
-The missing amount is calculated and displayed.
+The application follows a simple, user-friendly workflow:
 
-**Conversion Logic:**
+1. **Choose Dinosaur**  
+   The user selects a dinosaur from the list.
+
+2. **Check Existing Data**  
+   If the dinosaur already has saved levels, the app displays them and asks whether to update.
+
+3. **Enter Levels (6 → 1)**  
+   The user enters the number of units for each level.
+
+4. **Save to JSON**  
+   All levels for the selected dinosaur are saved to `dino-data.json`.
+
+5. **Calculate Totem Progress**  
+   - Convert all levels to Level 1 equivalents using exponential scaling.
+   - Sum the total.
+   - Compare against the target.
+   - Display how many units are missing.
+
+### Conversion Logic (Balance Table)
+
 Level scaling uses base‑2 exponential growth:
-- Level 1 = 1
-- Level 2 = 2
-- Level 3 = 4
-- Level 4 = 8
-- Level 5 = 16
-- Level 6 = 32
+
+| Level | Value |
+|-------|--------|
+| 1     | 1      |
+| 2     | 2      |
+| 3     | 4      |
+| 4     | 8      |
+| 5     | 16     |
+| 6     | 32     |
 
 ## 📦 Requirements
 - Python 3.12+
@@ -130,7 +147,8 @@ python -m dinopark.main
 - GUI version (Tkinter / PySide)
 - Export results to JSON/CSV
 - Visualization of progress (charts)
-- Persistent user data (save/load)
+- Multi-dino summary view
+- Backup/restore of saved data
 
 ## 📈 Roadmap
 [x] Add try...except blocks for input validation (Error handling).
@@ -145,6 +163,6 @@ python -m dinopark.main
 
 [x] Migrate to src/ project structure
 
-[ ] Implement data persistence (Save/Load from JSON file).
+[x] Implement data persistence (Save/Load from JSON file).
 
 [ ] Add a Graphical User Interface (GUI) or a web-based dashboard.
