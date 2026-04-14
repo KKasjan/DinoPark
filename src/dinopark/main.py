@@ -36,10 +36,7 @@ def main() -> None:
             new_data = get_user_input(dino_key, current_levels)
         else:
             sorted_keys = sorted(current_levels.keys(), key=int, reverse=True)
-            new_data = {
-                int(k): current_levels[k]
-                for k in sorted_keys
-            }
+            new_data = {int(k): current_levels[k] for k in sorted_keys}
     else:
         new_data = get_user_input(dino_key, current_levels)
 

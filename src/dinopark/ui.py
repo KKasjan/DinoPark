@@ -34,10 +34,7 @@ def confirm(prompt: str) -> bool:
         print("Please enter y od n.")
 
 
-def get_user_input(
-    dino_name: str,
-    levels: dict[str, int]
-) -> dict[int, int]:
+def get_user_input(dino_name: str, levels: dict[str, int]) -> dict[int, int]:
     """
     Collects the number of dinosaurs the user owns for each level (1–6).
 
