@@ -1,7 +1,6 @@
 import pytest
-from pytest import CaptureFixture, MonkeyPatch
-
 from dinopark.ui import display_result, get_safe_number, get_user_input
+from pytest import CaptureFixture, MonkeyPatch
 
 
 # Test 1 - Mocking the correct input
@@ -81,6 +80,20 @@ def test_get_user_input(monkeypatch: MonkeyPatch) -> None:
     inputs = iter(["1", "2", "3", "4", "5", "6"])
     monkeypatch.setattr("builtins.input", lambda _: next(inputs))
 
-    result = get_user_input("Dimetrodon")
+    result = get_user_input("Dimetrodon", {
+        "6": 0,
+        "5": 0,
+        "4": 0,
+        "3": 0,
+        "2": 0,
+        "1": 0}
+    )
 
-    assert result == {6: 1, 5: 2, 4: 3, 3: 4, 2: 5, 1: 6}
+    assert result == {
+        "6": 1,
+        "5": 2,
+        "4": 3,
+        "3": 4,
+        "2": 5,
+        "1": 6
+    }
