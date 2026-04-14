@@ -36,7 +36,7 @@ def main() -> None:
             new_data = get_user_input(dino_key, current_levels)
         else:
             sorted_keys = sorted(current_levels.keys(), key=int, reverse=True)
-            new_data = {int(k): current_levels[k] for k in sorted_keys}
+            new_data = {k: current_levels[k] for k in sorted_keys}
     else:
         new_data = get_user_input(dino_key, current_levels)
 
@@ -45,7 +45,10 @@ def main() -> None:
         update_dino_level(dino_key, str(lvl), amount)
 
     # Step 4 - Recalc logic
-    current_sum = calculate_possessed_sum(new_data, BALANCES)
+
+    # convert keys from str → int
+    int_levels = {int(k): v for k, v in new_data.items()}
+    current_sum = calculate_possessed_sum(int_levels, BALANCES)
     missing = get_missing_amount(current_sum, TARGET)
 
     # Step 5 - Display result
