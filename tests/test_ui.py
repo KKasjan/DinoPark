@@ -8,9 +8,9 @@ from dinopark.ui import (
 )
 from pytest import CaptureFixture, MonkeyPatch
 
-# -----------------------------
+# ----------------------------
 # Tests for get_safe_number
-# -----------------------------
+# ----------------------------
 
 
 def test_get_safe_number_valid(monkeypatch: MonkeyPatch) -> None:
