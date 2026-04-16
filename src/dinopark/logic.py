@@ -43,7 +43,7 @@ def update_golden_chest_flag(dino: dict) -> None:
 
     has_full_enclosure = all(count > 0 for count in levels.values())
 
-    dino["golden_chest"] = (totems == 3 and has_full_enclosure)
+    dino["golden_chest"] = totems == 3 and has_full_enclosure
 
 
 def calculate_missing_for_next_totem(totems: int, possessed_sum: int) -> int:
@@ -85,8 +85,7 @@ def calculate_progress(dino: dict) -> dict:
     totems = dino["totems"]
 
     missing_next_totem = calculate_missing_for_next_totem(
-        totems,
-        possessed_sum
+        totems, possessed_sum
     )
     missing_golden_chest = calculate_missing_for_golden_chest(dino["levels"])
 
