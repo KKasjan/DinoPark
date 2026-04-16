@@ -1,86 +1,37 @@
 def get_safe_number(prompt: str) -> int:
     """
     Reads a number from user input and validates that it is between 0 and 6.
-
-    Parameters:
-    prompt (str): Text displayed to the user.
-
-    Returns:
-    int: A valid number between 0 and 6.
     """
     while True:
         try:
-            user_input = input(prompt)
-            # Conversion to integer
-            value = int(user_input)
-
-            # The game allows for a maximum of 6 dinos in the enclosure
-            if value < 0 or value > 6:
-                print("Wrong! The number of dinos should be between 0 and 6.")
-                continue
-
-            return value
+            value = int(input(prompt))
+            if 0 <= value <= 6:
+                return value
+            print("Wrong! The number of dinos should be between 0 and 6.")
         except ValueError:
             print("Invalid input! Please enter a number between 0 and 6.")
 
 
 def confirm(prompt: str) -> bool:
+    """
+    Asks the user for a yes/no confirmation.
+    """
     while True:
         answer = input(f"{prompt} (y/n): ").strip().lower()
         if answer in ("y", "yes"):
             return True
         if answer in ("n", "no"):
             return False
-        print("Please enter y od n.")
-
-
-def get_user_input(dino_name: str, levels: dict[str, int]) -> dict[str, int]:
-    """
-    Collects the number of dinosaurs the user owns for each level (1–6).
-
-    The function dynamically reads available levels from the JSON data,
-    so it does not depend on a hardcoded range.
-    """
-    print(f"\n--- {dino_name.upper()} ---")
-    counts: dict[str, int] = {}
-
-    # Sort levels numerically (e.g. "6", "5", "4"...)
-    sorted_levels = sorted(levels.keys(), key=lambda x: int(x), reverse=True)
-
-    for lvl in sorted_levels:
-        counts[lvl] = get_safe_number(
-            f"How many {dino_name} on lvl  {lvl} you have:"
-        )
-
-    return counts
-
-
-def display_result(dino_name: str, missing: int) -> None:
-    """
-    Displays the result for a given dinosaur based on how many
-    units are missing.
-
-    Parameters:
-    dino_name (str): Name of the dinosaur.
-    missing (int): Number of units still needed to obtain the totem.
-
-    Returns:
-    None
-    """
-    if missing > 0:
-        print(f"{dino_name}: missing {missing}")
-    else:
-        print(f"{dino_name}: ready for totem!")
+        print("Please enter y or n.")
 
 
 def choose_dino(dinos: dict[str, dict]) -> str:
     """
     Displays a list of dinosaurs and returns the selected key.
     """
-    print("\nChoose a dinosaur to complete:\n")
+    print("\nChoose a dinosaur:\n")
 
     keys = list(dinos.keys())
-
     for i, key in enumerate(keys, start=1):
         print(f"{i}. {key}")
 
@@ -91,4 +42,38 @@ def choose_dino(dinos: dict[str, dict]) -> str:
                 return keys[choice]
             print("Incorrect number! Try again.")
         except ValueError:
-            print("Enter the number.")
+            print("Enter a valid number.")
+
+
+def choose_level(levels: dict[str, int]) -> str:
+    """
+    Displays a list of levels and returns the selected key.
+    """
+    print("\nChoose a level:\n")
+
+    sorted_levels = sorted(levels.keys(), key=lambda x: int(x), reverse=True)
+
+    for i, lvl in enumerate(sorted_levels, start=1):
+        print(f"{i}. {lvl} (current: {levels[lvl]})")
+
+    while True:
+        try:
+            choice = int(input("\nSelect number: ")) - 1
+            if 0 <= choice < len(sorted_levels):
+                return sorted_levels[choice]
+            print("Incorrect number! Try again.")
+        except ValueError:
+            print("Enter a valid number.")
+
+
+def display_progress(dino_name: str, progress: dict) -> None:
+    """
+    Displays a full progress report for a dinosaur.
+    """
+    print(f"\n=== {dino_name.upper()} PROGRESS ===")
+    print(f"Totems: {progress['totems']}")
+    print(f"Golden chest: {progress['golden_chest']}")
+    print(f"Possessed sum: {progress['possessed_sum']}")
+    print(f"Missing for next totem: {progress['missing_for_next_totem']}")
+    print(f"Missing for golden chest: {progress['missing_for_golden_chest']}")
+    print("==============================\n")
