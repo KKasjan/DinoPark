@@ -1,58 +1,64 @@
-from dinopark.config import BALANCES, TARGET
-from dinopark.data import load_all_dinos, update_dino_level, validate_park_data
-from dinopark.logic import calculate_possessed_sum, get_missing_amount
-from dinopark.ui import choose_dino, confirm, display_result, get_user_input
+from dinopark.data import load_all_dinos, save_all_dinos, validate_park_data
+from dinopark.logic import calculate_progress, update_golden_chest_flag
+from dinopark.ui import (
+    choose_dino,
+    choose_level,
+    confirm,
+    display_progress,
+    get_safe_number,
+)
 
 
 def main() -> None:
     """
-    Main entry point of the application.
+    Main entry point of the DinoPark Calculator application.
+    Allows the user to update dinosaur levels and view progress
+    toward totems and the golden chest.
     """
+
     dinos = load_all_dinos()
 
-    # Validate JSON structure
+    # Validate JSON data structure
     if not validate_park_data(dinos):
-        print("Invalid JSON structure. Fix dino-data.json and try again.")
+        print("Invalid data structure. Fix dino-data.json. and try again")
         return
 
     if not dinos:
         print("Error! No dinosaur data found!")
         return
 
-    # Step 1 - Choose dinosaur
-    dino_key = choose_dino(dinos)
-    print(f"\nSelected dinosaur: {dino_key}")
+    while True:
+        # Step 1 - choose dinosaur
+        dino_key = choose_dino(dinos)
+        dino = dinos[dino_key]
 
-    current_levels = dinos[dino_key]["levels"]
-    has_existing = any(value > 0 for value in current_levels.values())
+        print(f"\nSelected dinosaur: {dino_key}")
 
-    # Step 2 - Check if user already has data
-    if has_existing:
-        print("\nExisting data found: ")
-        for lvl, val in current_levels.items():
-            print(f"Level {lvl}: {val}")
+        # Step 2 - Show current progress
+        progress = calculate_progress(dino)
+        display_progress(dino_key, progress)
 
-        if confirm("Do you want update these values?"):
-            new_data = get_user_input(dino_key, current_levels)
-        else:
-            sorted_keys = sorted(current_levels.keys(), key=int, reverse=True)
-            new_data = {k: current_levels[k] for k in sorted_keys}
-    else:
-        new_data = get_user_input(dino_key, current_levels)
+        # Step 3 - edit levels loop
+        while confirm("Do you want to update levels?"):
+            lvl = choose_level(dino["levels"])
+            new_value = get_safe_number(f"Enter new value for level {lvl}: ")
 
-    # Step 3 - Save all levels
-    for lvl, amount in new_data.items():
-        update_dino_level(dino_key, str(lvl), amount)
+            dino["levels"][lvl] = new_value
 
-    # Step 4 - Recalc logic
+            # Update golden chest flag:
+            update_golden_chest_flag(dino)
 
-    # convert keys from str → int
-    int_levels = {int(k): v for k, v in new_data.items()}
-    current_sum = calculate_possessed_sum(int_levels, BALANCES)
-    missing = get_missing_amount(current_sum, TARGET)
+            # Save changes:
+            save_all_dinos(dinos)
 
-    # Step 5 - Display result
-    display_result(dino_key, missing)
+            # Show updated progress:
+            progress = calculate_progress(dino)
+            display_progress(dino_key, progress)
+
+        # Step 4 - switch to another dinosaur:
+        if not confirm("Do you want to switch to another dinosaur?"):
+            print("Goodbye!")
+            break
 
 
 if __name__ == "__main__":
