@@ -9,7 +9,6 @@ from dinopark.ui import (
     get_safe_number,
 )
 
-
 # ----------------------------
 # Tests for get_safe_number
 # ----------------------------
