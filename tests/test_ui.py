@@ -98,7 +98,7 @@ def test_choose_dino(monkeypatch: MonkeyPatch) -> None:
         "velociraptor": {},
     }
     monkeypatch.setattr("builtins.input", lambda _: "2")
-    assert choose_dino(dinos) == "TRex"
+    assert choose_dino(dinos) == "spinosaurus"
 
 
 # -----------------------------
