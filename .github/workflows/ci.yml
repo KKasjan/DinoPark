@@ -16,7 +16,7 @@ jobs:
           python-version: "3.12"
 
       - name: Install Ruff
-        run: pip install --upgrade ruff
+        run: pip install ruff==0.15.10
 
       - name: Install dependencies
         run: |
