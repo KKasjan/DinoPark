@@ -1,6 +1,5 @@
 import pytest
 from pytest import CaptureFixture, MonkeyPatch
-
 from dinopark.ui import (
     choose_dino,
     choose_level,
