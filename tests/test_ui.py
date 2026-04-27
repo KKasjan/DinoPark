@@ -1,5 +1,3 @@
-import pytest
-from pytest import CaptureFixture, MonkeyPatch
 from dinopark.ui import (
     choose_dino,
     choose_level,
@@ -7,6 +5,8 @@ from dinopark.ui import (
     display_progress,
     get_safe_number,
 )
+import pytest
+from pytest import CaptureFixture, MonkeyPatch
 
 
 # ----------------------------
