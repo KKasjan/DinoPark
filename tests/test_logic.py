@@ -1,4 +1,5 @@
 import pytest
+
 from dinopark.logic import calculate_possessed_sum, get_missing_amount
 
 
