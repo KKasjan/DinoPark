@@ -10,7 +10,7 @@ from pytest import CaptureFixture, MonkeyPatch
 
 
 # ----------------------------
-# Tests for get_safe_number
+# Tests for get_safe_number 
 # ----------------------------
 
 
