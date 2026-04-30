@@ -11,8 +11,8 @@ from dinopark.data import load_all_dinos, validate_park_data
 # -----------------------------
 
 
-def test_load_all_dinos_converts_keys_to_int():
-    fake_json = json.dumps(
+def test_load_all_dinos_converts_keys_to_int() -> None:
+    fake_json: str = json.dumps(
         {
             "ammonite": {
                 "type": "herbivore",
@@ -31,7 +31,7 @@ def test_load_all_dinos_converts_keys_to_int():
         # Patch open → return fake_json
         patch("builtins.open", mock_open(read_data=fake_json)),
     ):
-        data = load_all_dinos()
+        data: dict[str, dict] = load_all_dinos()
 
     assert set(data["ammonite"]["levels"].keys()) == {1, 2, 3, 4, 5, 6}
 
@@ -41,8 +41,8 @@ def test_load_all_dinos_converts_keys_to_int():
 # -----------------------------
 
 
-def test_validate_ok_structure():
-    data = {
+def test_validate_ok_structure() -> None:
+    data: dict[str, dict] = {
         "ammonite": {
             "type": "herbivore",
             "golden_chest": False,
@@ -54,8 +54,8 @@ def test_validate_ok_structure():
     assert validate_park_data(data) is True
 
 
-def test_missing_required_key():
-    data = {
+def test_missing_required_key() -> None:
+    data: dict[str, dict] = {
         "ammonite": {
             # missing type
             "golden_chest": False,
@@ -67,8 +67,8 @@ def test_missing_required_key():
     assert validate_park_data(data) is False
 
 
-def test_missing_level_key():
-    data = {
+def test_missing_level_key() -> None:
+    data: dict[str, dict] = {
         "ammonite": {
             "type": "herbivore",
             "golden_chest": False,
@@ -81,8 +81,8 @@ def test_missing_level_key():
     assert validate_park_data(data) is False
 
 
-def test_invalid_totems_type():
-    data = {
+def test_invalid_totems_type() -> None:
+    data: dict[str, dict] = {
         "ammonite": {
             "type": "herbivore",
             "golden_chest": False,
@@ -94,8 +94,8 @@ def test_invalid_totems_type():
     assert validate_park_data(data) is False
 
 
-def test_invalid_golden_chest_type():
-    data = {
+def test_invalid_golden_chest_type() -> None:
+    data: dict[str, dict] = {
         "ammonite": {
             "type": "herbivore",
             "golden_chest": 1,  # invalid type
@@ -107,8 +107,8 @@ def test_invalid_golden_chest_type():
     assert validate_park_data(data) is False
 
 
-def test_invalid_type_field():
-    data = {
+def test_invalid_type_field() -> None:
+    data: dict[str, dict] = {
         "ammonite": {
             "type": 123,  # invalid type
             "golden_chest": False,

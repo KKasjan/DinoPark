@@ -1,3 +1,5 @@
+from typing import Any
+
 import pytest  # noqa: F401
 from pytest import CaptureFixture, MonkeyPatch
 
@@ -16,17 +18,17 @@ from dinopark.ui import (
 # -----------------------------
 
 
-def test_get_int_valid(monkeypatch: MonkeyPatch):
+def test_get_int_valid(monkeypatch: MonkeyPatch) -> None:
     monkeypatch.setattr("builtins.input", lambda _: "5")
     assert get_int("Enter: ") == 5
 
 
 def test_get_int_negative(
     monkeypatch: MonkeyPatch, capsys: CaptureFixture[str]
-):
+) -> None:
     inputs = iter(["-3", "2"])
     monkeypatch.setattr("builtins.input", lambda _: next(inputs))
-    result = get_int("Enter: ")
+    result: int = get_int("Enter: ")
     captured = capsys.readouterr()
     assert "Value cannot be negative" in captured.out
     assert result == 2
@@ -34,10 +36,10 @@ def test_get_int_negative(
 
 def test_get_int_invalid(
     monkeypatch: MonkeyPatch, capsys: CaptureFixture[str]
-):
+) -> None:
     inputs = iter(["abc", "4"])
     monkeypatch.setattr("builtins.input", lambda _: next(inputs))
-    result = get_int("Enter: ")
+    result: int = get_int("Enter: ")
     captured = capsys.readouterr()
     assert "Invalid input!" in captured.out
     assert result == 4
@@ -48,17 +50,17 @@ def test_get_int_invalid(
 # -----------------------------
 
 
-def test_get_int_in_range_valid(monkeypatch: MonkeyPatch):
+def test_get_int_in_range_valid(monkeypatch: MonkeyPatch) -> None:
     monkeypatch.setattr("builtins.input", lambda _: "2")
     assert get_int_in_range("Enter: ", 0, 3) == 2
 
 
 def test_get_int_in_range_outside(
     monkeypatch: MonkeyPatch, capsys: CaptureFixture[str]
-):
+) -> None:
     inputs = iter(["5", "2"])
     monkeypatch.setattr("builtins.input", lambda _: next(inputs))
-    result = get_int_in_range("Enter: ", 0, 3)
+    result: int = get_int_in_range("Enter: ", 0, 3)
     captured = capsys.readouterr()
 
     assert "Value must be between 0 and 3" in captured.out
@@ -70,7 +72,7 @@ def test_get_int_in_range_outside(
 # -----------------------------
 
 
-def test_get_menu_choice(monkeypatch: MonkeyPatch):
+def test_get_menu_choice(monkeypatch: MonkeyPatch) -> None:
     monkeypatch.setattr("builtins.input", lambda _: "3")
     assert get_menu_choice("Choose: ", 5) == 3
 
@@ -80,19 +82,19 @@ def test_get_menu_choice(monkeypatch: MonkeyPatch):
 # -----------------------------
 
 
-def test_confirm_yes(monkeypatch: MonkeyPatch):
+def test_confirm_yes(monkeypatch: MonkeyPatch) -> None:
     monkeypatch.setattr("builtins.input", lambda _: "y")
     assert confirm("Continue") is True
 
 
-def test_confirm_no(monkeypatch: MonkeyPatch):
+def test_confirm_no(monkeypatch: MonkeyPatch) -> None:
     monkeypatch.setattr("builtins.input", lambda _: "n")
     assert confirm("Continue") is False
 
 
 def test_confirm_invalid_than_yes(
     monkeypatch: MonkeyPatch, capsys: CaptureFixture[str]
-):
+) -> None:
     inputs = iter(["maybe", "yes"])
     monkeypatch.setattr("builtins.input", lambda _: next(inputs))
     assert confirm("Continue") is True
@@ -105,8 +107,12 @@ def test_confirm_invalid_than_yes(
 # -----------------------------
 
 
-def test_choose_dino(monkeypatch: MonkeyPatch):
-    dinos = {"ammonite": {}, "velociraptor": {}, "pterodactyl": {}}
+def test_choose_dino(monkeypatch: MonkeyPatch) -> None:
+    dinos: dict[str, dict[str, Any]] = {
+        "ammonite": {},
+        "velociraptor": {},
+        "pterodactyl": {},
+    }
     monkeypatch.setattr("builtins.input", lambda _: "2")
     assert choose_dino(dinos) == "velociraptor"
 
@@ -116,8 +122,8 @@ def test_choose_dino(monkeypatch: MonkeyPatch):
 # -----------------------------
 
 
-def test_choose_level(monkeypatch: MonkeyPatch):
-    levels = {1: 0, 2: 2, 3: 1}
+def test_choose_level(monkeypatch: MonkeyPatch) -> None:
+    levels: dict[int, int] = {1: 0, 2: 2, 3: 1}
     monkeypatch.setattr("builtins.input", lambda _: "3")
     assert choose_level(levels) == 3
 
@@ -127,8 +133,8 @@ def test_choose_level(monkeypatch: MonkeyPatch):
 # ----------------------------
 
 
-def test_display_progress(capsys: CaptureFixture[str]):
-    progress = {
+def test_display_progress(capsys: CaptureFixture[str]) -> None:
+    progress: dict[str, Any] = {
         "totems": 1,
         "golden_chest": False,
         "missing_for_next_totem": 8,

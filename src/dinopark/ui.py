@@ -108,7 +108,7 @@ def choose_update_mode() -> int:
     return get_menu_choice("choose option (1-4): ", 4)
 
 
-def _calculate_total_dinos(levels: dict[int, int]) -> dict[int, int]:
+def _calculate_total_dinos(levels: dict[int, int]) -> int:
     """
     Returns total number of dinosaurs in the enclosure.
     Max allowed = 6.
