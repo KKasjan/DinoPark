@@ -1,11 +1,10 @@
 import json
-from unittest.mock import mock_open, patch
 from pathlib import Path
+from unittest.mock import mock_open, patch
 
 import pytest  # noqa: F401
 
-from dinopark.data import validate_park_data, load_all_dinos
-
+from dinopark.data import load_all_dinos, validate_park_data
 
 # -----------------------------
 # Tests for load_all_dino

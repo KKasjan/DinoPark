@@ -9,7 +9,6 @@ from dinopark.logic import (
     update_golden_chest_flag,
 )
 
-
 # -----------------------------
 # Fixtures
 # -----------------------------

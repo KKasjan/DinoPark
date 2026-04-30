@@ -11,7 +11,6 @@ from dinopark.ui import (
     get_menu_choice,
 )
 
-
 # -----------------------------
 # Tests for get_int
 # -----------------------------
