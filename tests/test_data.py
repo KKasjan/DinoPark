@@ -1,7 +1,9 @@
 import json
 from unittest.mock import mock_open, patch
 from pathlib import Path
+
 import pytest  # noqa: F401
+
 from dinopark.data import validate_park_data, load_all_dinos
 
 
@@ -19,13 +21,16 @@ def test_load_all_dinos_converts_keys_to_int():
         }
     })
 
-    # Patch DATA_FILE → pretend it points to "fake.json"
-    with patch("dinopark.data.DATA_FILE", Path("fake.json")):
+    with (
+        # Patch DATA_FILE → pretend it points to "fake.json"
+        patch("dinopark.data.DATA_FILE", Path("fake.json")),
         # Patch Path.exists → pretend that the file exists
-        with patch("pathlib.Path.exists", return_value=True):
-            # Patch open → return fake_json
-            with patch("builtins.open", mock_open(read_data=fake_json)):
-                data = load_all_dinos()
+        patch("pathlib.Path.exists", return_value=True),
+        # Patch open → return fake_json
+        patch("builtins.open", mock_open(read_data=fake_json)),
+    ):
+
+        data = load_all_dinos()
 
     assert set(data["ammonite"]["levels"].keys()) == {1, 2, 3, 4, 5, 6}
 

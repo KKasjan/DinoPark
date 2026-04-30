@@ -1,5 +1,5 @@
 from dinopark.data import validate_park_data
-from dinopark.logic import update_golden_chest_flag, calculate_progress
+from dinopark.logic import calculate_progress, update_golden_chest_flag
 
 
 def test_integration_full_flow():

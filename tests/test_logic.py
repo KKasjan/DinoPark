@@ -1,4 +1,5 @@
 import pytest
+
 from dinopark.logic import (
     calculate_effective_totems,
     calculate_missing_for_golden_chest,
@@ -7,6 +8,7 @@ from dinopark.logic import (
     calculate_total_value,
     update_golden_chest_flag,
 )
+
 
 # -----------------------------
 # Fixtures
