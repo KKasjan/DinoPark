@@ -1,4 +1,6 @@
 import pytest  # noqa: F401
+from pytest import CaptureFixture, MonkeyPatch
+
 from dinopark.ui import (
     choose_dino,
     choose_level,
@@ -8,7 +10,6 @@ from dinopark.ui import (
     get_int_in_range,
     get_menu_choice,
 )
-from pytest import CaptureFixture, MonkeyPatch
 
 # -----------------------------
 # Tests for get_int
