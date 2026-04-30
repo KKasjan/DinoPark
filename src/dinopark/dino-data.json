@@ -2,26 +2,27 @@
     "ammonite": {
         "type": "herbivore",
         "golden_chest": false,
-        "totems": 0,
+        "totems": 1,
         "levels": {
-            "6": 0,
+            "6": 1,
             "5": 0,
-            "4": 0,
+            "4": 1,
             "3": 0,
-            "2": 0,
+            "2": 1,
             "1": 0
         }
-    },"velociraptor": {
+    },
+    "velociraptor": {
         "type": "carnivore",
         "golden_chest": false,
-        "totems": 0,
+        "totems": 1,
         "levels": {
-            "6": 0,
+            "6": 1,
             "5": 0,
             "4": 0,
             "3": 0,
-            "2": 0,
-            "1": 0
+            "2": 1,
+            "1": 1
         }
     },
     "pterodactyl": {
@@ -588,11 +589,11 @@
         "golden_chest": false,
         "totems": 0,
         "levels": {
-            "6": 1,
+            "6": 0,
             "5": 0,
-            "4": 1,
+            "4": 0,
             "3": 0,
-            "2": 1,
+            "2": 0,
             "1": 0
         }
     }

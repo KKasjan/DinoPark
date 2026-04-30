@@ -1,16 +1,49 @@
-def get_safe_number(prompt: str) -> int:
+# ============================================
+# 1. Validators
+# ============================================
+
+def get_int(prompt: str) -> int:
     """
-    Reads a number from user input and validates that it is between 0 and 6.
+    Reads any non-negative integer.
     """
     while True:
         try:
             value = int(input(prompt))
-            if 0 <= value <= 6:
-                return value
-            print("Wrong! The number of dinos should be between 0 and 6.")
+            if value < 0:
+                print("Value cannot be negative. Try again.")
+                continue
+            return value
         except ValueError:
-            print("Invalid input! Please enter a number between 0 and 6.")
+            print("Invalid input! Please enter a whole number.")
 
+
+def get_int_in_range(prompt: str, min_value: int, max_value: int) -> int:
+    """
+    Reads an integer within a specific range.
+    """
+    while True:
+        try:
+            value = int(input(prompt))
+            if min_value <= value <= max_value:
+                return value
+            print(
+                f"Value must be between {min_value} and {max_value}."
+                f"Try again."
+            )
+        except ValueError:
+            print("Invalid input! Please enter a whole number.")
+
+
+def get_menu_choice(prompt: str, options_count: int) -> int:
+    """
+    Reads a menu choice from 1 to options_count.
+    """
+    return get_int_in_range(prompt, 1, options_count)
+
+
+# ============================================
+# 2. Basic UI
+# ============================================
 
 def confirm(prompt: str) -> bool:
     """
@@ -22,7 +55,7 @@ def confirm(prompt: str) -> bool:
             return True
         if answer in ("n", "no"):
             return False
-        print("Please enter y or n.")
+        print("Please enter y or n: ")
 
 
 def choose_dino(dinos: dict[str, dict]) -> str:
@@ -35,36 +68,121 @@ def choose_dino(dinos: dict[str, dict]) -> str:
     for i, key in enumerate(keys, start=1):
         print(f"{i}. {key}")
 
+    choice = get_menu_choice("\nSelect number: ", len(keys))
+    return keys[choice - 1]
+
+
+# ============================================
+# 3. New Functions
+# ============================================
+
+def ask_totems() -> int:
+    """
+    Asks the user how many totems they currently have (0–3).
+    """
+    print("\nHow many totems do you have?")
+    print("0 = no totems")
+    print("1 = first totem")
+    print("2 = second totem")
+    print("3 = third totem")
+    return get_int_in_range("Enter number of totems (0–3): ", 0, 3)
+
+
+def choose_update_mode() -> int:
+    """
+    Asks the user how they want to update the enclosure.
+    Returns:
+    1 = whole enclosure
+    2 = single level
+    3 = return do dinosaur list
+    4 = exit
+    """
+    print("\nHow do you want to update this dinosaur?")
+    print("1. Update whole enclosure")
+    print("2. Update single level")
+    print("3. Return to dinosaur list")
+    print("4. Exit")
+
+    return get_menu_choice("choose option (1-4): ", 4)
+
+
+def _calculate_total_dinos(levels: dict[int, int]) -> dict[int, int]:
+    """
+    Returns total number of dinosaurs in the enclosure.
+    Max allowed = 6.
+    """
+    return sum(levels.values())
+
+
+def update_whole_enclosure_ui(levels: dict[int, int]) -> dict[int, int]:
+    """
+    Updates the entire enclosure (levels 6 → 1).
+    Validates that total slot usage does not exceed 6.
+    """
     while True:
-        try:
-            choice = int(input("\nSelect number: ")) - 1
-            if 0 <= choice < len(keys):
-                return keys[choice]
-            print("Incorrect number! Try again.")
-        except ValueError:
-            print("Enter a valid number.")
+        print("\nUpdate whole enclosure (max 6 dinosaurs total).")
+        new_levels: dict[int, int] = {}
+
+        for lvl in range(6, 0, -1):
+            current = levels.get(lvl, 0)
+            prompt = f"How many dinos on level {lvl}? (current: {current}): "
+            new_levels[lvl] = get_int(prompt)
+
+        total_dinos = _calculate_total_dinos(new_levels)
+
+        if total_dinos > 6:
+            print(
+                f"\nToo many dinos! Total slot usage would be {total_dinos}/6."
+                "Please enter values that fit into 6 slots.\n"
+            )
+            continue
+
+        return new_levels
 
 
-def choose_level(levels: dict[str, int]) -> str:
+def choose_level(levels: dict[int, int]) -> int:
     """
-    Displays a list of levels and returns the selected key.
+    Displays levels in natural order (1 → 6) and returns chosen level.
     """
-    print("\nChoose a level:\n")
+    print("\nChoose a level to update:\n")
 
-    sorted_levels = sorted(levels.keys(), key=lambda x: int(x), reverse=True)
+    sorted_levels = sorted(levels.keys())  # 1, 2, 3, 4, 5, 6
 
     for i, lvl in enumerate(sorted_levels, start=1):
-        print(f"{i}. {lvl} (current: {levels[lvl]})")
+        print(f"{i}. Level {lvl} (current: {levels[lvl]})")
 
+    choice = get_menu_choice("\nSelect number: ", len(sorted_levels))
+    return sorted_levels[choice - 1]
+
+
+def update_single_level_ui(levels: dict[int, int]) -> dict[int, int]:
+    """
+    Updates a single level and validates total number of dinos.
+    """
     while True:
-        try:
-            choice = int(input("\nSelect number: ")) - 1
-            if 0 <= choice < len(sorted_levels):
-                return sorted_levels[choice]
-            print("Incorrect number! Try again.")
-        except ValueError:
-            print("Enter a valid number.")
+        lvl = choose_level(levels)
+        current = levels[lvl]
+        prompt = f"Enter new value for level {lvl} (current: {current}): "
+        new_value = get_int(prompt)
 
+        new_levels = levels.copy()
+        new_levels[lvl] = new_value
+
+        total_dinos = _calculate_total_dinos(new_levels)
+
+        if total_dinos > 6:
+            print(
+                f"\nToo many dinos! Total slot usage would be {total_dinos}/6."
+                "Please enter a smaller value.\n"
+            )
+            continue
+
+        return new_levels
+
+
+# ============================================
+# 4. Display
+# ============================================
 
 def display_progress(dino_name: str, progress: dict) -> None:
     """
@@ -73,7 +191,6 @@ def display_progress(dino_name: str, progress: dict) -> None:
     print(f"\n=== {dino_name.upper()} PROGRESS ===")
     print(f"Totems: {progress['totems']}")
     print(f"Golden chest: {progress['golden_chest']}")
-    print(f"Possessed sum: {progress['possessed_sum']}")
     print(f"Missing for next totem: {progress['missing_for_next_totem']}")
     print(f"Missing for golden chest: {progress['missing_for_golden_chest']}")
     print("==============================\n")

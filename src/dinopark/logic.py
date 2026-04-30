@@ -1,98 +1,106 @@
-from dinopark.config import BALANCES, TARGET_FIRST_TOTEM, TARGET_OTHER_TOTEMS
+from dinopark.config import BALANCES, RETURN_VALUE_AFTER_TOTEM, TARGET_TOTEM
 
+# -----------------------------
+# Value calculation
+# -----------------------------
 
-def calculate_possessed_sum(
-    counts: dict[int, int], balances: dict[int, int]
-) -> int:
+def calculate_total_value(levels: dict[int, int]) -> int:
     """
-    Calculates the total number of units you have by converting dinosaur
-    levels to their base values ​from the balances.
+    Converts all dinosaurs into their level-1 equivalent value.
     """
-    total = 0
-    for lvl, quantity in counts.items():
-        total += quantity * balances[lvl]
-    return total
+    return sum(count * BALANCES[lvl] for lvl, count in levels.items())
 
 
-def get_missing_amount(possessed_sum: int, target: int) -> int:
+# ---------------------------------------
+# EFFECTIVE TOTEMS
+# ---------------------------------------
+def calculate_effective_totems(totems: int, levels: dict[int, int]) -> int:
     """
-    Calculates the missing number of dinosaurs to obtain the totem.
-
-    Negative possessed_sum values are treated as 0.
+    Calculates how many totems the user *should have*
+    based on total dino value.
+    User-entered totems is the minimum; value may increase it.
     """
-    if possessed_sum < 0:
-        possessed_sum = 0
+    value = calculate_total_value(levels)
+    eff = totems
 
-    if possessed_sum >= target:
-        return 0
-    return target - possessed_sum
+    # Each 63 values = 1 totem
+    extra = value // TARGET_TOTEM
+    eff = min(3, eff + extra)
 
+    return eff
+
+
+# -----------------------------
+# Golden chest flag
+# -----------------------------
 
 def update_golden_chest_flag(dino: dict) -> None:
     """
-    Updates the 'golden_chest' flag based on game rules.
-
-    A dinosaur receives the golden chest if:
-    - it has exactly 3 totems
-    - it has at least one dinosaur on every level (full enclosure)
-
-    This function updates the 'golden_chest' field in-place.
+    Golden chest is awarded when:
+    - user has 3 totems
+    - enclosure is full (each level has 1 dinosaur)
     """
-    totems = dino["totems"]
-    levels = dino["levels"]
-
-    has_full_enclosure = all(count > 0 for count in levels.values())
-
-    dino["golden_chest"] = totems == 3 and has_full_enclosure
+    calculate_progress(dino)
 
 
-def calculate_missing_for_next_totem(totems: int, possessed_sum: int) -> int:
+# -----------------------------
+# Missing amounts
+# -----------------------------
+
+def calculate_missing_for_next_totem(levels: dict[int, int]) -> int:
     """
-    Calculates the missing number of dinosaurs needed to obtain the next totem
+    Missing dinosaurs (in lvl1 value) to obtain the NEXT totem.
     """
-    if totems == 0:
-        return get_missing_amount(possessed_sum, TARGET_FIRST_TOTEM)
-
-    if totems in (1, 2):
-        return get_missing_amount(possessed_sum, TARGET_OTHER_TOTEMS)
-
-    return 0
+    total_value = calculate_total_value(levels)
+    return max(TARGET_TOTEM - total_value, 0)
 
 
-def calculate_missing_for_golden_chest(levels: dict[int, int]) -> int:
+def calculate_missing_for_golden_chest(
+    eff_totems: int,
+    levels: dict[int, int]
+) -> int:
     """
-    Calculates the missing number of dinosaurs needed
-    to obtain the golden chest.
+    Missing value to reach golden chest, in a simplified model:
+    - what you miss to the next totem
+    - plus RETURN_VALUE_AFTER_TOTEM for each remaining totem
+    - plus RETURN_VALUE_AFTER_TOTEM for the chest itself
     """
-    missing_levels = [lvl for lvl, count in levels.items() if count == 0]
-    return len(missing_levels)
+    missing_next = calculate_missing_for_next_totem(levels)
 
+    remaining_totems = max(0, 3 - eff_totems)
+
+    return missing_next + remaining_totems * RETURN_VALUE_AFTER_TOTEM
+
+
+# -----------------------------
+# Progress summary
+# -----------------------------
 
 def calculate_progress(dino: dict) -> dict:
     """
-    Calculates the progress towards the next totem and golden
-    chest for a given dinosaur.
-
-    Returns a dictionary with the following keys:
-    - 'missing_for_next_totem': number of dinosaurs
-    needed for the next totem
-    - 'missing_for_golden_chest': number of dinosaurs
-    needed for the golden chest
+    Returns:
+    - effective totems
+    - golden_chest flag
+    - missing_for_next_totem
+    - missing_for_golden_chest
     """
-    int_levels = {int(k): v for k, v in dino["levels"].items()}
-    possessed_sum = calculate_possessed_sum(int_levels, BALANCES)
+    levels = {int(k): v for k, v in dino["levels"].items()}
+    base_totems = dino["totems"]
 
-    totems = dino["totems"]
+    eff_totems = calculate_effective_totems(base_totems, levels)
 
-    missing_next_totem = calculate_missing_for_next_totem(
-        totems, possessed_sum
-    )
-    missing_golden_chest = calculate_missing_for_golden_chest(dino["levels"])
+    # Full enclosure = at least 1 dino on each level 1-6
+    full_enclosure = all(levels.get(lvl, 0) >= 1 for lvl in range(1, 7))
+
+    golden = (eff_totems == 3 and full_enclosure)
+    dino["golden_chest"] = golden
+
+    missing_next = calculate_missing_for_next_totem(levels)
+    missing_chest = calculate_missing_for_golden_chest(eff_totems, levels)
 
     return {
-        "totems": totems,
+        "totems": eff_totems,
         "golden_chest": dino["golden_chest"],
-        "possessed_sum": possessed_sum,
-        "missing_for_next_totem": missing_next_totem,
-        "missing_for_golden_chest": missing_golden_chest,
+        "missing_for_next_totem": missing_next,
+        "missing_for_golden_chest": missing_chest
     }
