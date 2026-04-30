@@ -1,6 +1,4 @@
 import pytest  # noqa: F401
-from pytest import CaptureFixture, MonkeyPatch
-
 from dinopark.ui import (
     choose_dino,
     choose_level,
@@ -10,10 +8,12 @@ from dinopark.ui import (
     get_int_in_range,
     get_menu_choice,
 )
+from pytest import CaptureFixture, MonkeyPatch
 
 # -----------------------------
 # Tests for get_int
 # -----------------------------
+
 
 def test_get_int_valid(monkeypatch: MonkeyPatch):
     monkeypatch.setattr("builtins.input", lambda _: "5")
@@ -21,8 +21,7 @@ def test_get_int_valid(monkeypatch: MonkeyPatch):
 
 
 def test_get_int_negative(
-    monkeypatch: MonkeyPatch,
-    capsys: CaptureFixture[str]
+    monkeypatch: MonkeyPatch, capsys: CaptureFixture[str]
 ):
     inputs = iter(["-3", "2"])
     monkeypatch.setattr("builtins.input", lambda _: next(inputs))
@@ -33,8 +32,7 @@ def test_get_int_negative(
 
 
 def test_get_int_invalid(
-    monkeypatch: MonkeyPatch,
-    capsys: CaptureFixture[str]
+    monkeypatch: MonkeyPatch, capsys: CaptureFixture[str]
 ):
     inputs = iter(["abc", "4"])
     monkeypatch.setattr("builtins.input", lambda _: next(inputs))
@@ -48,14 +46,14 @@ def test_get_int_invalid(
 # Tests for get_int_in_range
 # -----------------------------
 
+
 def test_get_int_in_range_valid(monkeypatch: MonkeyPatch):
     monkeypatch.setattr("builtins.input", lambda _: "2")
     assert get_int_in_range("Enter: ", 0, 3) == 2
 
 
 def test_get_int_in_range_outside(
-    monkeypatch: MonkeyPatch,
-    capsys: CaptureFixture[str]
+    monkeypatch: MonkeyPatch, capsys: CaptureFixture[str]
 ):
     inputs = iter(["5", "2"])
     monkeypatch.setattr("builtins.input", lambda _: next(inputs))
@@ -70,6 +68,7 @@ def test_get_int_in_range_outside(
 # Tests for get_menu_choice
 # -----------------------------
 
+
 def test_get_menu_choice(monkeypatch: MonkeyPatch):
     monkeypatch.setattr("builtins.input", lambda _: "3")
     assert get_menu_choice("Choose: ", 5) == 3
@@ -78,6 +77,7 @@ def test_get_menu_choice(monkeypatch: MonkeyPatch):
 # -----------------------------
 # Tests for confirm
 # -----------------------------
+
 
 def test_confirm_yes(monkeypatch: MonkeyPatch):
     monkeypatch.setattr("builtins.input", lambda _: "y")
@@ -90,8 +90,7 @@ def test_confirm_no(monkeypatch: MonkeyPatch):
 
 
 def test_confirm_invalid_than_yes(
-    monkeypatch: MonkeyPatch,
-    capsys: CaptureFixture[str]
+    monkeypatch: MonkeyPatch, capsys: CaptureFixture[str]
 ):
     inputs = iter(["maybe", "yes"])
     monkeypatch.setattr("builtins.input", lambda _: next(inputs))
@@ -104,6 +103,7 @@ def test_confirm_invalid_than_yes(
 # Tests for choose_dino
 # -----------------------------
 
+
 def test_choose_dino(monkeypatch: MonkeyPatch):
     dinos = {"ammonite": {}, "velociraptor": {}, "pterodactyl": {}}
     monkeypatch.setattr("builtins.input", lambda _: "2")
@@ -114,6 +114,7 @@ def test_choose_dino(monkeypatch: MonkeyPatch):
 # Tests for choose_level
 # -----------------------------
 
+
 def test_choose_level(monkeypatch: MonkeyPatch):
     levels = {1: 0, 2: 2, 3: 1}
     monkeypatch.setattr("builtins.input", lambda _: "3")
@@ -123,6 +124,7 @@ def test_choose_level(monkeypatch: MonkeyPatch):
 # -----------------------------
 # Tests for display_progress
 # ----------------------------
+
 
 def test_display_progress(capsys: CaptureFixture[str]):
     progress = {

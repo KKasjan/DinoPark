@@ -2,6 +2,7 @@
 # 1. Validators
 # ============================================
 
+
 def get_int(prompt: str) -> int:
     """
     Reads any non-negative integer.
@@ -27,8 +28,7 @@ def get_int_in_range(prompt: str, min_value: int, max_value: int) -> int:
             if min_value <= value <= max_value:
                 return value
             print(
-                f"Value must be between {min_value} and {max_value}."
-                f"Try again."
+                f"Value must be between {min_value} and {max_value}.Try again."
             )
         except ValueError:
             print("Invalid input! Please enter a whole number.")
@@ -44,6 +44,7 @@ def get_menu_choice(prompt: str, options_count: int) -> int:
 # ============================================
 # 2. Basic UI
 # ============================================
+
 
 def confirm(prompt: str) -> bool:
     """
@@ -75,6 +76,7 @@ def choose_dino(dinos: dict[str, dict]) -> str:
 # ============================================
 # 3. New Functions
 # ============================================
+
 
 def ask_totems() -> int:
     """
@@ -183,6 +185,7 @@ def update_single_level_ui(levels: dict[int, int]) -> dict[int, int]:
 # ============================================
 # 4. Display
 # ============================================
+
 
 def display_progress(dino_name: str, progress: dict) -> None:
     """

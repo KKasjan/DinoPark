@@ -1,5 +1,4 @@
 import pytest
-
 from dinopark.logic import (
     calculate_effective_totems,
     calculate_missing_for_golden_chest,
@@ -12,6 +11,7 @@ from dinopark.logic import (
 # -----------------------------
 # Fixtures
 # -----------------------------
+
 
 @pytest.fixture
 def levels_full():
@@ -32,6 +32,7 @@ def levels_partial():
 # Helpers
 # -----------------------------
 
+
 def make_dino(levels: dict[int, int], totems: int = 0) -> dict:
     """
     Helper to build a valid dino structure.
@@ -46,6 +47,7 @@ def make_dino(levels: dict[int, int], totems: int = 0) -> dict:
 # -----------------------------
 # calculate_total_value
 # -----------------------------
+
 
 def test_total_value_full(levels_full):
     assert calculate_total_value(levels_full) == 63
@@ -63,6 +65,7 @@ def test_total_value_partial(levels_partial):
 # calculate_effective_totems
 # -----------------------------
 
+
 def test_effective_totems_no_bonus(levels_partial):
     assert calculate_effective_totems(0, levels_partial) == 0
 
@@ -78,6 +81,7 @@ def test_effective_totems_cap_at_three(levels_full):
 # -----------------------------
 # Tests for update_golden_chest_flag
 # -----------------------------
+
 
 def test_golden_chest_true_when_3_totems_amd_full_enclosure():
     levels = {6: 1, 5: 1, 4: 1, 3: 1, 2: 1, 1: 1}
@@ -133,6 +137,7 @@ def test_golden_chest_false_when_eff3_but_not_full():
 # calculate_missing_for_next_totem
 # -----------------------------
 
+
 def test_missing_next_totem_full(levels_full):
     assert calculate_missing_for_next_totem(levels_full) == 0
 
@@ -144,6 +149,7 @@ def test_missing_next_totem_partial(levels_partial):
 # -----------------------------
 # calculate_missing_for_golden_chest
 # -----------------------------'
+
 
 def test_missing_chest_when_0_totems(levels_partial):
     # missing_next = 31, remaining_totems = 3
@@ -168,11 +174,12 @@ def test_missing_chest_when_3_totems(levels_full):
 # calculate_progress
 # -----------------------------
 
+
 def test_progress_basic():
     dino = {
         "totems": 1,
         "golden_chest": False,
-        "levels": {"6": 1, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0}
+        "levels": {"6": 1, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0},
     }
 
     result = calculate_progress(dino)

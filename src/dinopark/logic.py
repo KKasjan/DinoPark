@@ -4,6 +4,7 @@ from dinopark.config import BALANCES, RETURN_VALUE_AFTER_TOTEM, TARGET_TOTEM
 # Value calculation
 # -----------------------------
 
+
 def calculate_total_value(levels: dict[int, int]) -> int:
     """
     Converts all dinosaurs into their level-1 equivalent value.
@@ -34,6 +35,7 @@ def calculate_effective_totems(totems: int, levels: dict[int, int]) -> int:
 # Golden chest flag
 # -----------------------------
 
+
 def update_golden_chest_flag(dino: dict) -> None:
     """
     Golden chest is awarded when:
@@ -47,6 +49,7 @@ def update_golden_chest_flag(dino: dict) -> None:
 # Missing amounts
 # -----------------------------
 
+
 def calculate_missing_for_next_totem(levels: dict[int, int]) -> int:
     """
     Missing dinosaurs (in lvl1 value) to obtain the NEXT totem.
@@ -56,8 +59,7 @@ def calculate_missing_for_next_totem(levels: dict[int, int]) -> int:
 
 
 def calculate_missing_for_golden_chest(
-    eff_totems: int,
-    levels: dict[int, int]
+    eff_totems: int, levels: dict[int, int]
 ) -> int:
     """
     Missing value to reach golden chest, in a simplified model:
@@ -76,6 +78,7 @@ def calculate_missing_for_golden_chest(
 # Progress summary
 # -----------------------------
 
+
 def calculate_progress(dino: dict) -> dict:
     """
     Returns:
@@ -92,7 +95,7 @@ def calculate_progress(dino: dict) -> dict:
     # Full enclosure = at least 1 dino on each level 1-6
     full_enclosure = all(levels.get(lvl, 0) >= 1 for lvl in range(1, 7))
 
-    golden = (eff_totems == 3 and full_enclosure)
+    golden = eff_totems == 3 and full_enclosure
     dino["golden_chest"] = golden
 
     missing_next = calculate_missing_for_next_totem(levels)
@@ -102,5 +105,5 @@ def calculate_progress(dino: dict) -> dict:
         "totems": eff_totems,
         "golden_chest": dino["golden_chest"],
         "missing_for_next_totem": missing_next,
-        "missing_for_golden_chest": missing_chest
+        "missing_for_golden_chest": missing_chest,
     }

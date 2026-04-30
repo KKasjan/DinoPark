@@ -91,8 +91,7 @@ def main() -> None:
         print(f"  Totems: {progress['totems']}")
         print(f"  Golden chest: {progress['golden_chest']}")
         print(
-            f"  Missing for next totem: "
-            f"{progress['missing_for_next_totem']}"
+            f"  Missing for next totem: {progress['missing_for_next_totem']}"
         )
         print(
             f"  Missing for golden chest: "

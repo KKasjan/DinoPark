@@ -3,22 +3,24 @@ from pathlib import Path
 from unittest.mock import mock_open, patch
 
 import pytest  # noqa: F401
-
 from dinopark.data import load_all_dinos, validate_park_data
 
 # -----------------------------
 # Tests for load_all_dino
 # -----------------------------
 
+
 def test_load_all_dinos_converts_keys_to_int():
-    fake_json = json.dumps({
-        "ammonite": {
-            "type": "herbivore",
-            "golden_chest": False,
-            "totems": 1,
-            "levels": {"1": 1, "2": 0, "3": 1, "4": 1, "5": 1, "6": 0}
+    fake_json = json.dumps(
+        {
+            "ammonite": {
+                "type": "herbivore",
+                "golden_chest": False,
+                "totems": 1,
+                "levels": {"1": 1, "2": 0, "3": 1, "4": 1, "5": 1, "6": 0},
+            }
         }
-    })
+    )
 
     with (
         # Patch DATA_FILE → pretend it points to "fake.json"
@@ -28,7 +30,6 @@ def test_load_all_dinos_converts_keys_to_int():
         # Patch open → return fake_json
         patch("builtins.open", mock_open(read_data=fake_json)),
     ):
-
         data = load_all_dinos()
 
     assert set(data["ammonite"]["levels"].keys()) == {1, 2, 3, 4, 5, 6}
@@ -38,20 +39,14 @@ def test_load_all_dinos_converts_keys_to_int():
 # Tests for validate_park_data
 # -----------------------------
 
+
 def test_validate_ok_structure():
     data = {
         "ammonite": {
             "type": "herbivore",
             "golden_chest": False,
             "totems": 1,
-            "levels": {
-                6: 1,
-                5: 0,
-                4: 1,
-                3: 1,
-                2: 1,
-                1: 0
-            }
+            "levels": {6: 1, 5: 0, 4: 1, 3: 1, 2: 1, 1: 0},
         }
     }
 
@@ -64,14 +59,7 @@ def test_missing_required_key():
             # missing type
             "golden_chest": False,
             "totems": 1,
-            "levels": {
-                "6": 1,
-                "5": 0,
-                "4": 1,
-                "3": 1,
-                "2": 1,
-                "1": 0
-            }
+            "levels": {"6": 1, "5": 0, "4": 1, "3": 1, "2": 1, "1": 0},
         }
     }
 
@@ -85,13 +73,7 @@ def test_missing_level_key():
             "golden_chest": False,
             "totems": 1,
             # missing level "4"
-            "levels": {
-                "6": 1,
-                "5": 0,
-                "3": 1,
-                "2": 1,
-                "1": 0
-            }
+            "levels": {"6": 1, "5": 0, "3": 1, "2": 1, "1": 0},
         }
     }
 
@@ -104,14 +86,7 @@ def test_invalid_totems_type():
             "type": "herbivore",
             "golden_chest": False,
             "totems": "two",  # invalid type
-            "levels": {
-                "6": 1,
-                "5": 0,
-                "4": 1,
-                "3": 1,
-                "2": 1,
-                "1": 0
-            }
+            "levels": {"6": 1, "5": 0, "4": 1, "3": 1, "2": 1, "1": 0},
         }
     }
 
@@ -124,14 +99,7 @@ def test_invalid_golden_chest_type():
             "type": "herbivore",
             "golden_chest": 1,  # invalid type
             "totems": 1,
-            "levels": {
-                "6": 1,
-                "5": 0,
-                "4": 1,
-                "3": 1,
-                "2": 1,
-                "1": 0
-            }
+            "levels": {"6": 1, "5": 0, "4": 1, "3": 1, "2": 1, "1": 0},
         }
     }
 
@@ -144,14 +112,7 @@ def test_invalid_type_field():
             "type": 123,  # invalid type
             "golden_chest": False,
             "totems": 1,
-            "levels": {
-                "6": 1,
-                "5": 0,
-                "4": 1,
-                "3": 1,
-                "2": 1,
-                "1": 0
-            }
+            "levels": {"6": 1, "5": 0, "4": 1, "3": 1, "2": 1, "1": 0},
         }
     }
 
