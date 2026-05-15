@@ -1,13 +1,13 @@
 from dinopark.data import load_all_dinos, save_all_dinos, validate_park_data
 from dinopark.logic import calculate_progress
 from dinopark.ui import (
-    ask_totems,
     choose_dino,
     choose_update_mode,
     confirm,
     display_progress,
     update_single_level_ui,
     update_whole_enclosure_ui,
+    verify_totems_ui,
 )
 
 
@@ -35,12 +35,16 @@ def main() -> None:
     while True:
         # Step 1: choose dinosaur
         dino_key = choose_dino(dinos)
-        dino = dinos[dino_key]
+        dino_original = dinos[dino_key]
+
+        # Work on copy to avoid accidental mutations
+        dino = dino_original.copy()
+        dino["levels"] = dino_original["levels"].copy()
 
         print(f"\nSelected dinosaur: {dino_key}")
 
         # Step 2: ask ho many totems user has
-        dino["totems"] = ask_totems()
+        dino["totems"] = verify_totems_ui(dino.get("totems", 0))
 
         # Step 3: choose update mode
         mode = choose_update_mode()
@@ -69,11 +73,19 @@ def main() -> None:
 
         # If we reach here, user chose mode 1 or 2 → changes were made
 
-        # Save changes
+        # Step 4: calculate progress
+        progress = calculate_progress(dino)
+
+        # Update dino with computed golden chest
+        dino["golden_chest"] = progress["golden_chest"]
+
+        # Original dino update after calculation
+        dino_original.update(dino)
+
+        # Save changes AFTER progress is calculated
         save_all_dinos(dinos)
 
-        # Step 4: show summary for THIS dino
-        progress = calculate_progress(dino)
+        # Display summary
         display_progress(dino_key, progress)
 
         # Save this dino's summary for final session report

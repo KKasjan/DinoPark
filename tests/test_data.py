@@ -29,11 +29,12 @@ def test_load_all_dinos_converts_keys_to_int() -> None:
         # Patch Path.exists → pretend that the file exists
         patch("pathlib.Path.exists", return_value=True),
         # Patch open → return fake_json
-        patch("builtins.open", mock_open(read_data=fake_json)),
+        patch("pathlib.Path.open", mock_open(read_data=fake_json)),
     ):
         data: dict[str, dict] = load_all_dinos()
 
-    assert set(data["ammonite"]["levels"].keys()) == {1, 2, 3, 4, 5, 6}
+    expected_levels = {"1", "2", "3", "4", "5", "6"}
+    assert set(data["ammonite"]["levels"].keys()) == expected_levels
 
 
 # -----------------------------
@@ -47,7 +48,7 @@ def test_validate_ok_structure() -> None:
             "type": "herbivore",
             "golden_chest": False,
             "totems": 1,
-            "levels": {6: 1, 5: 0, 4: 1, 3: 1, 2: 1, 1: 0},
+            "levels": {"6": 1, "5": 0, "4": 1, "3": 1, "2": 1, "1": 0},
         }
     }
 

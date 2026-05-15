@@ -15,26 +15,26 @@
     "velociraptor": {
         "type": "carnivore",
         "golden_chest": false,
-        "totems": 1,
+        "totems": 2,
         "levels": {
             "6": 1,
             "5": 0,
-            "4": 0,
+            "4": 1,
             "3": 0,
             "2": 1,
-            "1": 1
+            "1": 0
         }
     },
     "pterodactyl": {
         "type": "carnivore",
         "golden_chest": false,
-        "totems": 0,
+        "totems": 3,
         "levels": {
-            "6": 0,
+            "6": 1,
             "5": 0,
-            "4": 0,
+            "4": 1,
             "3": 0,
-            "2": 0,
+            "2": 1,
             "1": 0
         }
     },

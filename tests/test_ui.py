@@ -11,6 +11,7 @@ from dinopark.ui import (
     get_int,
     get_int_in_range,
     get_menu_choice,
+    verify_totems_ui,
 )
 
 # -----------------------------
@@ -76,6 +77,21 @@ def test_get_menu_choice(monkeypatch: MonkeyPatch) -> None:
     monkeypatch.setattr("builtins.input", lambda _: "3")
     assert get_menu_choice("Choose: ", 5) == 3
 
+
+# -----------------------------
+# Tests for verify_totems_ui
+# -----------------------------
+
+
+def test_verify_totems_ui_confirm(monkeypatch: MonkeyPatch) -> None:
+    monkeypatch.setattr("builtins.input", lambda _: "y")
+    assert verify_totems_ui(2) == 2
+
+
+def test_verify_totems_ui_change(monkeypatch: MonkeyPatch) -> None:
+    inputs = iter(["n", "1"])
+    monkeypatch.setattr("builtins.input", lambda _: next(inputs))
+    assert verify_totems_ui(2) == 1
 
 # -----------------------------
 # Tests for confirm
@@ -147,5 +163,5 @@ def test_display_progress(capsys: CaptureFixture[str]) -> None:
     assert "VELOCIRAPTOR PROGRESS" in captured.out
     assert "Totems: 1" in captured.out
     assert "Golden chest: False" in captured.out
-    assert "Missing for next totem: 8" in captured.out
-    assert "Missing for golden chest: 3" in captured.out
+    assert "Missing dinos on lvl 1 for next totem: 8" in captured.out
+    assert "Missing dinos on lvl 1 for golden chest: 3" in captured.out

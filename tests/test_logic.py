@@ -142,11 +142,15 @@ def test_golden_chest_false_when_eff3_but_not_full() -> None:
 
 
 def test_missing_next_totem_full(levels_full: dict[int, int]) -> None:
-    assert calculate_missing_for_next_totem(levels_full) == 0
+    assert calculate_missing_for_next_totem(0, levels_full) == 0
+
+
+def test_missing_next_totem_already_3(levels_full: dict[int, int]) -> None:
+    assert calculate_missing_for_next_totem(3, levels_full) == 0
 
 
 def test_missing_next_totem_partial(levels_partial: dict[int, int]) -> None:
-    assert calculate_missing_for_next_totem(levels_partial) == 31
+    assert calculate_missing_for_next_totem(0, levels_partial) == 31
 
 
 # -----------------------------

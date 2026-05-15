@@ -78,16 +78,28 @@ def choose_dino(dinos: dict[str, dict]) -> str:
 # ============================================
 
 
-def ask_totems() -> int:
+def verify_totems_ui(totems: int) -> int:
     """
-    Asks the user how many totems they currently have (0–3).
+    Shows current totem count and asks to confirm or update.
     """
-    print("\nHow many totems do you have?")
-    print("0 = no totems")
-    print("1 = first totem")
-    print("2 = second totem")
-    print("3 = third totem")
-    return get_int_in_range("Enter number of totems (0–3): ", 0, 3)
+    print(f"\n[DATA_CHECK] Current state: {totems} totems.")
+    if confirm("Is this correct?"):
+        return totems
+
+    print("\nHow many totems do you have now?")
+    return get_int_in_range("Enter numbers of totems (0-3): ", 0, 3)
+
+
+# def ask_totems() -> int:
+#     """
+#     Asks the user how many totems they currently have (0–3).
+#     """
+#     print("\nHow many totems do you have?")
+#     print("0 = no totems")
+#     print("1 = first totem")
+#     print("2 = second totem")
+#     print("3 = third totem")
+#     return get_int_in_range("Enter number of totems (0–3): ", 0, 3)
 
 
 def choose_update_mode() -> int:
@@ -194,6 +206,11 @@ def display_progress(dino_name: str, progress: dict) -> None:
     print(f"\n=== {dino_name.upper()} PROGRESS ===")
     print(f"Totems: {progress['totems']}")
     print(f"Golden chest: {progress['golden_chest']}")
-    print(f"Missing for next totem: {progress['missing_for_next_totem']}")
-    print(f"Missing for golden chest: {progress['missing_for_golden_chest']}")
+    print(f"Missing dinos on lvl 1 for next totem: "
+          f"{progress['missing_for_next_totem']}"
+    )
+    print(
+        f"Missing dinos on lvl 1 for golden chest: "
+        f"{progress['missing_for_golden_chest']}"
+    )
     print("==============================\n")

@@ -42,7 +42,8 @@ def update_golden_chest_flag(dino: dict) -> None:
     - user has 3 totems
     - enclosure is full (each level has 1 dinosaur)
     """
-    calculate_progress(dino)
+    progress = calculate_progress(dino)
+    dino["golden_chest"] = progress["golden_chest"]
 
 
 # -----------------------------
@@ -50,28 +51,66 @@ def update_golden_chest_flag(dino: dict) -> None:
 # -----------------------------
 
 
-def calculate_missing_for_next_totem(levels: dict[int, int]) -> int:
+def calculate_missing_for_next_totem(
+    totems: int,
+    levels: dict[int, int]
+) -> int:
     """
     Missing dinosaurs (in lvl1 value) to obtain the NEXT totem.
+    Returns 0 if user already has 3 effective totems.
     """
+    eff_totems = calculate_effective_totems(totems, levels)
+    if eff_totems >= 3:
+        return 0
+
     total_value = calculate_total_value(levels)
     return max(TARGET_TOTEM - total_value, 0)
 
 
+def is_full_enclosure(levels: dict[int, int]) -> bool:
+    return all(levels.get(lvl, 0) > 0 for lvl in range(1, 7))
+
+
+def missing_for_full_enclosure(levels: dict[int, int]) -> int:
+    return sum(1 for lvl in range(1, 7) if levels.get(lvl, 0) == 0)
+
+
 def calculate_missing_for_golden_chest(
-    eff_totems: int, levels: dict[int, int]
+    totems: int, levels: dict[int, int]
 ) -> int:
     """
-    Missing value to reach golden chest, in a simplified model:
-    - what you miss to the next totem
-    - plus RETURN_VALUE_AFTER_TOTEM for each remaining totem
-    - plus RETURN_VALUE_AFTER_TOTEM for the chest itself
+    Calculates total value needed for golden chest
+    based on explicit totem stages.
     """
-    missing_next = calculate_missing_for_next_totem(levels)
+    effective_totems = calculate_effective_totems(totems, levels)
+    total_value = calculate_total_value(levels)
+    missing_value = 0
 
-    remaining_totems = max(0, 3 - eff_totems)
+    # Case 1 - 0 totems
+    if effective_totems == 0:
+        missing_value = (
+            (TARGET_TOTEM - total_value) + (3 * RETURN_VALUE_AFTER_TOTEM)
+        )
 
-    return missing_next + remaining_totems * RETURN_VALUE_AFTER_TOTEM
+    # Case 2 - 1 totem:
+    elif effective_totems == 1:
+        missing_next = max(0, TARGET_TOTEM - total_value)
+        missing_value = missing_next + (2 * RETURN_VALUE_AFTER_TOTEM)
+
+    # Case 3 - 2 totems;
+    elif effective_totems == 2:
+        missing_next = max(0, TARGET_TOTEM - total_value)
+        missing_value = missing_next + (1 * RETURN_VALUE_AFTER_TOTEM)
+
+    # Case 4 - Collected 3 totems, but missing dino in the enclosure
+    else:
+        if not is_full_enclosure(levels):
+            # Find the lowest missing level and return its value from BALANCES
+            for lvl in range(1, 7):
+                if levels.get(lvl, 0) == 0:
+                    missing_value += BALANCES[lvl]
+
+    return missing_value
 
 
 # -----------------------------
@@ -92,18 +131,16 @@ def calculate_progress(dino: dict) -> dict:
 
     eff_totems = calculate_effective_totems(base_totems, levels)
 
+    missing_next = calculate_missing_for_next_totem(base_totems, levels)
+    missing_chest = calculate_missing_for_golden_chest(base_totems, levels)
+
     # Full enclosure = at least 1 dino on each level 1-6
-    full_enclosure = all(levels.get(lvl, 0) >= 1 for lvl in range(1, 7))
-
+    full_enclosure = is_full_enclosure(levels)
     golden = eff_totems == 3 and full_enclosure
-    dino["golden_chest"] = golden
-
-    missing_next = calculate_missing_for_next_totem(levels)
-    missing_chest = calculate_missing_for_golden_chest(eff_totems, levels)
 
     return {
         "totems": eff_totems,
-        "golden_chest": dino["golden_chest"],
+        "golden_chest": golden,
         "missing_for_next_totem": missing_next,
         "missing_for_golden_chest": missing_chest,
     }
