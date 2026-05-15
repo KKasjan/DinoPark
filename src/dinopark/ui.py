@@ -206,8 +206,9 @@ def display_progress(dino_name: str, progress: dict) -> None:
     print(f"\n=== {dino_name.upper()} PROGRESS ===")
     print(f"Totems: {progress['totems']}")
     print(f"Golden chest: {progress['golden_chest']}")
-    print(f"Missing dinos on lvl 1 for next totem: "
-          f"{progress['missing_for_next_totem']}"
+    print(
+        f"Missing dinos on lvl 1 for next totem: "
+        f"{progress['missing_for_next_totem']}"
     )
     print(
         f"Missing dinos on lvl 1 for golden chest: "

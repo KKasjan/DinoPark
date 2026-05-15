@@ -11,20 +11,14 @@ from dinopark.main import main
 # Helper: fake dino dataset
 # ---------------------------------------------------------
 
+
 def make_fake_dinos() -> dict[str, dict[str, Any]]:
     return {
         "ammonite": {
             "type": "herbivore",
             "golden_chest": False,
             "totems": 0,
-            "levels": {
-                "6": 0,
-                "5": 0,
-                "4": 0,
-                "3": 0,
-                "2": 0,
-                "1": 0
-            }
+            "levels": {"6": 0, "5": 0, "4": 0, "3": 0, "2": 0, "1": 0},
         }
     }
 
@@ -37,7 +31,7 @@ def make_fake_dinos() -> dict[str, dict[str, Any]]:
 @patch("dinopark.main.confirm", return_value=False)
 @patch(
     "dinopark.main.update_whole_enclosure_ui",
-    return_value={"1": 1, "2": 1, "3": 1, "4": 1, "5": 1, "6": 1}
+    return_value={"1": 1, "2": 1, "3": 1, "4": 1, "5": 1, "6": 1},
 )
 @patch("dinopark.main.choose_update_mode", return_value=1)
 @patch("dinopark.main.verify_totems_ui", return_value=3)
@@ -102,7 +96,7 @@ def test_cancel_does_not_save(
 @patch("dinopark.main.confirm", return_value=False)
 @patch(
     "dinopark.main.update_whole_enclosure_ui",
-    return_value={"1": 1, "2": 1, "3": 1, "4": 1, "5": 1, "6": 1}
+    return_value={"1": 1, "2": 1, "3": 1, "4": 1, "5": 1, "6": 1},
 )
 @patch("dinopark.main.choose_update_mode", side_effect=[1])
 @patch("dinopark.main.verify_totems_ui", return_value=3)
@@ -123,7 +117,7 @@ def test_golden_chest_persistence(
     main()
 
     saved_data: dict[str, dict[str, Any]] = mock_save.call_args[0][0]
-    ammonite = saved_data['ammonite']
+    ammonite = saved_data["ammonite"]
 
     assert ammonite["golden_chest"] is True
     assert ammonite["totems"] == 3

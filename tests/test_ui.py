@@ -93,6 +93,7 @@ def test_verify_totems_ui_change(monkeypatch: MonkeyPatch) -> None:
     monkeypatch.setattr("builtins.input", lambda _: next(inputs))
     assert verify_totems_ui(2) == 1
 
+
 # -----------------------------
 # Tests for confirm
 # -----------------------------

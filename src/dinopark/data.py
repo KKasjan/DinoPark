@@ -7,6 +7,7 @@ from dinopark.config import DATA_FILE
 # LOADING & SAVING
 # ---------------------------------------
 
+
 def load_all_dinos() -> dict[str, dict[str, Any]]:
     """
     Loads dinosaur data from JSON.

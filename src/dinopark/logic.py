@@ -52,8 +52,7 @@ def update_golden_chest_flag(dino: dict) -> None:
 
 
 def calculate_missing_for_next_totem(
-    totems: int,
-    levels: dict[int, int]
+    totems: int, levels: dict[int, int]
 ) -> int:
     """
     Missing dinosaurs (in lvl1 value) to obtain the NEXT totem.
@@ -88,8 +87,8 @@ def calculate_missing_for_golden_chest(
 
     # Case 1 - 0 totems
     if effective_totems == 0:
-        missing_value = (
-            (TARGET_TOTEM - total_value) + (3 * RETURN_VALUE_AFTER_TOTEM)
+        missing_value = (TARGET_TOTEM - total_value) + (
+            3 * RETURN_VALUE_AFTER_TOTEM
         )
 
     # Case 2 - 1 totem:
