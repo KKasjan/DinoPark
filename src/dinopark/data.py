@@ -42,7 +42,7 @@ def save_all_dinos(data: dict[str, dict[str, Any]]) -> None:
         json.dump(data, f, indent=4)
 
 
-def validate_park_data(data: dict[str, dict[str, Any]]) -> bool:
+def validate_park_data(data: Any) -> bool:
     """
     Validates the entire dino JSON structure and business rules.
     Ensures:
