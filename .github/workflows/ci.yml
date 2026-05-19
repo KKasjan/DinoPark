@@ -10,13 +10,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Clean workspace
+        run: git clean -xfd
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
       - name: Install Ruff
-        run: pip install --upgrade ruff
+        run: pip install ruff==0.15.10
 
       - name: Install dependencies
         run: |

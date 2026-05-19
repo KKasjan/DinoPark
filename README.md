@@ -7,51 +7,50 @@ A lightweight Python tool designed to automate the calculation of resources need
 
 ## 🎯 Purpose
 
-This project was created as a practical exercise in:
+This project is a showcase of a professional development workflow, specifically tailored for an Automation QA Engineer role:
 
-- modular architecture,
-- automated testing,
-- static code analysis,
-- CI/CD,
-- JSON data persistence,
-- and general development workflow.
-
-It is part of my learning path toward becoming an Automation QA Engineer.
+- **Advanced Logic:** Handling complex "carry-over" rules (losing a level 6 dino upon totem acquisition).
+- **Test-Driven Mentality:** Extensive suite of unit and integration tests.
+- **Robust Architecture:** Clear separation of concerns (UI, Logic, Data, Config).
+- **Quality Gates:** Fully automated CI/CD pipeline using Ruff, MyPy, and Pytest.
 
 ## 🚀 Features
 
-- **Full-Level Input (6→1):** Enter all dinosaur levels in one flow.
-- **Data Persistence:** Automatically saves each dinosaur’s levels to `dino-data.json`.
-- **Existing Data Detection:** If a dinosaur already has saved levels, the app asks 
-- **Modular Architecture:** Clean separation between logic, data, and user interface.
-- **Automated Calculations:** Converts various dinosaur levels (1-6) into base units (Level 1) using pre-defined balance rates.
-- **Unit Testing:** Integrated test suite for core logic and input validation.
+- **Totem Progression Logic:** Automatically calculates "Effective Totems" based on owned dinosaurs (1 totem per 63 value units).
+- **Golden Chest Roadmap:** Precisely calculates the total value of level 1 units needed to reach the Golden Chest, accounting for the "carry-over" effect (refilling the enclosure after losing level 6 units).
+- **Smart Data Persistence:** Automatically saves/loads state from dino-data.json with a new "Verify Status" UI flow to save time.
+- **Dino Enclosure Monitoring:** Detects "Full Enclosure" status (at least one dinosaur of each level from 1 to 6).
+- **Comprehensive Testing:** Unit tests for math logic, UI mock tests, and main flow integration tests.
   
 ## 📂 Project Structure 
 
 ```
 DinoPark/
-│
 ├── src/
 │   └── dinopark/
-│       ├── __init__.py
-│       ├── main.py          # Application entry point
-│       ├── logic.py         # Core mathematical engine
-│       ├── ui.py            # User input/output handling
-│       ├── data.py          # Dino data loading & filtering
-│       ├── config.py        # Global constants & balance settings
-│       └── dino-data.json   # Dinosaur definitions & statuses
+│       ├── __init__.py      # Initialization
+│       ├── main.py          # Application entry point (orchestrator)
+│       ├── config.py        # Constants, point thresholds and game balance
+│       ├── data.py          # Loading, filtering, and validating JSON
+│       ├── dino-data.json   # Dinosaur Database
+│       ├── logic.py         # Math Engine (Totems, Golden Chest)
+│       └── ui.py            # I/O support and console interface
 │
 ├── tests/
-│   ├── test_logic.py        # Unit tests for logic
-│   └── test_ui.py           # Unit tests for UI validation
+│   ├── test_data.py         # File loading and validation tests
+│   ├── test_integration.py  # Inter-module flow tests
+│   ├── test_logic.py        # Unit tests of formulas and calculations
+│   ├── test_main.py         # Tests mocking the main loop of the program
+│   └── test_ui.py           # User input validation tests
 │
-├── .github/workflows/ci.yml # CI pipeline (pytest, mypy, Ruff)
-├── .pre-commit-config.yaml  # Pre-commit hooks
-├── mypy.ini                 # Static type checking config
-├── ruff.toml                # Linting & formatting rules
-├── requirements.txt         # Dependencies
-└── README.md
+├── .env                     # Environment variables
+├── .gitattributes           # Git attributes configuration
+├── .pre-commit-config.yaml  # Automatic pre-commit checks
+├── mypy.ini                 # Static type checking configuration
+├── pyprojects.toml          # Tool configuration (e.g., Ruff, Build system)
+├── pytest.ini               # Main pytest framework settings
+├── README.md                # Project documentation
+└── requirements.txt         # Dependency list (pytest, ruff, mypy)
 ```
 
 ## 🔄 Continuous Integration (CI)
@@ -65,9 +64,15 @@ The project uses GitHub Actions to automatically run:
 
 Every push and pull request must pass the pipeline.
 
-## 🧪 Testing
-The project includes unit tests to ensure the accuracy of the core calculation engine (logic.py).
-Tests are written using pytest.
+## 🧪 Testing & Quality Assurance
+
+Quality is baked into the project:
+- **Pytest:** Runs all unit and integration tests.
+- **Mocks:** Uses unittest.mock to simulate user input and file system operations without side effects.
+- **Static Analysis:** mypy ensures strict type safety.
+- **Linting:** ruff enforces industry-standard Python formatting.
+
+The suite covers unit tests for math, mock-based UI tests, and integration tests to verify the end-to-end user flow.
 
 **Requirements:**
 - `pytest` library
@@ -109,7 +114,7 @@ The application follows a simple, user-friendly workflow:
 5. **Calculate Totem Progress**  
    - Convert all levels to Level 1 equivalents using exponential scaling.
    - Sum the total.
-   - Compare against the target.
+   - Compare against the target and calculate the path to the Golden Chest (including carry-over refills).
    - Display how many units are missing.
 
 ### Conversion Logic (Balance Table)
@@ -155,7 +160,7 @@ Each dinosaur entry must contain:
     - keys are strings ("6", "5", "4"…)
     - values are integers representing how many units you own
 
-### ✔ Minimal valid example
+### ✔ Data Schema (dino-data.json)
 
 ```json
 {
@@ -229,5 +234,9 @@ Invalid JSON structure. Fix dino-data.json and try again.
 [x] Migrate to src/ project structure
 
 [x] Implement data persistence (Save/Load from JSON file).
+
+[x] Complex Golden Chest carry-over logic.
+
+[x] UI Totem verification
 
 [ ] Add a Graphical User Interface (GUI) or a web-based dashboard.
