@@ -1,37 +1,56 @@
-import json
+import sqlite3
 from typing import Any
 
-from dinopark.config import DATA_FILE
+from dinopark.db_setup import DB_PATH
 
 # ---------------------------------------
 # LOADING & SAVING
 # ---------------------------------------
 
 
-def load_all_dinos() -> dict[str, dict[str, Any]]:
+def load_all_dinos() -> dict[str, Any]:
     """
-    Loads dinosaur data from JSON.
-    Performs ONLY raw loading — no structure assumptions.
-    Validation happens separately in validate_park_data().
+    Fetches all dinosaurs from the SQLite database and converts them 
+    into the application's dictionary format.
     """
-    # Checking if the file exists at all
-    if not DATA_FILE.exists():
-        return {}
+    connection = sqlite3.connect(DB_PATH)
+    cursor = connection.cursor()
 
-    try:
-        with DATA_FILE.open("r", encoding="utf-8") as f:
-            data = json.load(f)
-    except json.JSONDecodeError:
-        print("Error: dino-data.json is corrupted or invalid JSON.")
-        return {}
+    # Retrieving all records from the dinosaurs table
+    cursor.execute("""
+        SELECT name, type, golden_chest, totems, 
+               lvl_1, lvl_2, lvl_3, lvl_4, lvl_5, lvl_6 
+        FROM dinosaurs
+    """)
+    rows = cursor.fetchall()
 
-    # Data must be a dict[str, dict]
-    if not isinstance(data, dict):
-        print("Error: dino-data.json must contain a dictionary at top level.")
-        return {}
+    connection.close()
 
-    return data
+    dinos_dict: dict[str, Any] = {}
 
+    for row in rows:
+        (
+            name, dino_type, golden_chest, totems, 
+            l1, l2, l3, l4, l5, l6
+        ) = row
+
+        # Reconstructs the dictionary structure 
+        # (changing 1/0 from the database to True/False in Python)
+        dinos_dict[name] = {
+            "type": dino_type,
+            "golden_chest": bool(golden_chest),
+            "totems": totems,
+            "levels": {
+                "1": l1,
+                "2": l2,
+                "3": l3,
+                "4": l4,
+                "5": l5,
+                "6": l6
+            }
+        }
+
+    return dinos_dict
 
 def save_all_dinos(data: dict[str, dict[str, Any]]) -> None:
     """
