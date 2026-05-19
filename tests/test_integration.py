@@ -9,7 +9,7 @@ def test_integration_full_flow() -> None:
         "type": "herbivore",
         "golden_chest": False,
         "totems": 2,
-        "levels": {1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1},
+        "levels": {"1": 1, "2": 1, "3": 1, "4": 1, "5": 1, "6": 1},
     }
 
     assert validate_park_data({"ammonite": dino}) is True
