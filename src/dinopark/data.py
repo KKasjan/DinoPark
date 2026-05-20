@@ -1,6 +1,7 @@
 import sqlite3
 from typing import Any
 
+from dinopark.constants import DEFAULT_DINOSAURS
 from dinopark.db_setup import DB_PATH
 
 # ---------------------------------------
@@ -10,8 +11,9 @@ from dinopark.db_setup import DB_PATH
 
 def load_all_dinos() -> dict[str, Any]:
     """
-    Fetches all dinosaurs from the SQLite database and converts them
-    into the application's dictionary format.
+    Fetches all dinosaurs from the SQLite database.
+    If the database is empty, initializes it with default startup data
+    from constants.py.
     """
     connection = sqlite3.connect(DB_PATH)
     cursor = connection.cursor()
@@ -23,6 +25,11 @@ def load_all_dinos() -> dict[str, Any]:
         FROM dinosaurs
     """)
     rows = cursor.fetchall()
+
+    if not rows:
+        connection.close()
+        save_all_dinos(DEFAULT_DINOSAURS)
+        return DEFAULT_DINOSAURS
 
     connection.close()
 
@@ -52,6 +59,15 @@ def save_all_dinos(dinos_data: dict[str, Any]) -> None:
     cursor = connection.cursor()
 
     for name, data in dinos_data.items():
+        levels = data["levels"]
+
+        l1 = levels.get(1, levels.get("1", 0))
+        l2 = levels.get(2, levels.get("2", 0))
+        l3 = levels.get(3, levels.get("3", 0))
+        l4 = levels.get(4, levels.get("4", 0))
+        l5 = levels.get(5, levels.get("5", 0))
+        l6 = levels.get(6, levels.get("6", 0))
+
         cursor.execute(
             """
             INSERT OR REPLACE INTO dinosaurs (
@@ -66,12 +82,12 @@ def save_all_dinos(dinos_data: dict[str, Any]) -> None:
                 # Converting True/False to 1/0 for SQLite
                 1 if data["golden_chest"] else 0,
                 data["totems"],
-                data["levels"]["1"],
-                data["levels"]["2"],
-                data["levels"]["3"],
-                data["levels"]["4"],
-                data["levels"]["5"],
-                data["levels"]["6"],
+                l1,
+                l2,
+                l3,
+                l4,
+                l5,
+                l6,
             ),
         )
 
