@@ -4,7 +4,7 @@ from typing import Any
 from dinopark.db_setup import DB_PATH
 
 # ---------------------------------------
-# LOADING & SAVING
+# LOADING & SAVING (SQLite)
 # ---------------------------------------
 
 
@@ -52,13 +52,43 @@ def load_all_dinos() -> dict[str, Any]:
 
     return dinos_dict
 
-def save_all_dinos(data: dict[str, dict[str, Any]]) -> None:
-    """
-    Saves the entire dinosaur dataset back to dino-data.json
-    """
 
-    with DATA_FILE.open("w", encoding="utf-8") as f:
-        json.dump(data, f, indent=4)
+def save_all_dinos(dinos_data: dict[str, Any]) -> None:
+    """
+    Saves or updates the dinosaurs dictionary structure in the SQLite database
+    using a safe INSERT OR REPLACE (UPSERT) mechanism.
+    """
+    connection = sqlite3.connect(DB_PATH)
+    cursor = connection.cursor()
+
+    for name, data in dinos_data.items():
+        cursor.execute("""
+            INSERT OR REPLACE INTO dinosaurs (
+                name, type, golden_chest, totems, 
+                lvl_1, lvl_2, lvl_3, lvl_4, lvl_5, lvl_6
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            name,
+            data["type"],
+            # Converting True/False to 1/0 for SQLite
+            1 if data["golden_chest"] else 0,
+            data["totems"],
+            data["levels"]["1"],
+            data["levels"]["2"],
+            data["levels"]["3"],
+            data["levels"]["4"],
+            data["levels"]["5"],
+            data["levels"]["6"]
+        ))
+    
+    connection.commit()
+    connection.close()
+
+
+# ---------------------------------------
+# VALIDATION (Business Rules)
+# ---------------------------------------
 
 
 def validate_park_data(data: Any) -> bool:
