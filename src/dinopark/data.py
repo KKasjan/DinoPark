@@ -10,7 +10,7 @@ from dinopark.db_setup import DB_PATH
 
 def load_all_dinos() -> dict[str, Any]:
     """
-    Fetches all dinosaurs from the SQLite database and converts them 
+    Fetches all dinosaurs from the SQLite database and converts them
     into the application's dictionary format.
     """
     connection = sqlite3.connect(DB_PATH)
@@ -18,8 +18,8 @@ def load_all_dinos() -> dict[str, Any]:
 
     # Retrieving all records from the dinosaurs table
     cursor.execute("""
-        SELECT name, type, golden_chest, totems, 
-               lvl_1, lvl_2, lvl_3, lvl_4, lvl_5, lvl_6 
+        SELECT name, type, golden_chest, totems,
+               lvl_1, lvl_2, lvl_3, lvl_4, lvl_5, lvl_6
         FROM dinosaurs
     """)
     rows = cursor.fetchall()
@@ -30,11 +30,11 @@ def load_all_dinos() -> dict[str, Any]:
 
     for row in rows:
         (
-            name, dino_type, golden_chest, totems, 
+            name, dino_type, golden_chest, totems,
             l1, l2, l3, l4, l5, l6
         ) = row
 
-        # Reconstructs the dictionary structure 
+        # Reconstructs the dictionary structure
         # (changing 1/0 from the database to True/False in Python)
         dinos_dict[name] = {
             "type": dino_type,
@@ -64,7 +64,7 @@ def save_all_dinos(dinos_data: dict[str, Any]) -> None:
     for name, data in dinos_data.items():
         cursor.execute("""
             INSERT OR REPLACE INTO dinosaurs (
-                name, type, golden_chest, totems, 
+                name, type, golden_chest, totems,
                 lvl_1, lvl_2, lvl_3, lvl_4, lvl_5, lvl_6
             )
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -81,7 +81,7 @@ def save_all_dinos(dinos_data: dict[str, Any]) -> None:
             data["levels"]["5"],
             data["levels"]["6"]
         ))
-    
+
     connection.commit()
     connection.close()
 

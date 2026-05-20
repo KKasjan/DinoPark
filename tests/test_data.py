@@ -18,7 +18,7 @@ def test_load_all_dinos_converts_keys_to_int() -> None:
 
     with patch("sqlite3.connect", return_value=mock_connect):
         data = load_all_dinos()
-    
+
     expected_levels = {"1", "2", "3", "4", "5", "6"}
     assert set(data["ammonite"]["levels"].keys()) == expected_levels
 

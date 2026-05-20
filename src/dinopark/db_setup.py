@@ -1,12 +1,16 @@
-import sqlite3
 import os
+import sqlite3
 
 # Define the path to the database file in the project folder
 DB_PATH = os.path.join(os.path.dirname(__file__), "dinopark.db")
 
+
 def init_db() -> None:
-    """Creates the database file and the dinosaurs table if they don't exist."""
-    # Connecting to the database (if the file doesn't exist, sqlite3 will create it)
+    """Creates the database file and the dinosaurs table
+    if they don't exist.
+    """
+    # Connecting to the database (if the file doesn't exist,
+    # sqlite3 will create it)
     connection = sqlite3.connect(DB_PATH)
     cursor = connection.cursor()
 
@@ -30,7 +34,8 @@ def init_db() -> None:
     # Saving changes to the file and closing the connection
     connection.commit()
     connection.close()
-    print(True) # Information that the database has been initialized
+    print(True)  # Information that the database has been initialized
+
 
 if __name__ == "__main__":
     init_db()
