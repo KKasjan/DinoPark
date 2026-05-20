@@ -29,10 +29,7 @@ def load_all_dinos() -> dict[str, Any]:
     dinos_dict: dict[str, Any] = {}
 
     for row in rows:
-        (
-            name, dino_type, golden_chest, totems,
-            l1, l2, l3, l4, l5, l6
-        ) = row
+        (name, dino_type, golden_chest, totems, l1, l2, l3, l4, l5, l6) = row
 
         # Reconstructs the dictionary structure
         # (changing 1/0 from the database to True/False in Python)
@@ -40,14 +37,7 @@ def load_all_dinos() -> dict[str, Any]:
             "type": dino_type,
             "golden_chest": bool(golden_chest),
             "totems": totems,
-            "levels": {
-                "1": l1,
-                "2": l2,
-                "3": l3,
-                "4": l4,
-                "5": l5,
-                "6": l6
-            }
+            "levels": {"1": l1, "2": l2, "3": l3, "4": l4, "5": l5, "6": l6},
         }
 
     return dinos_dict
@@ -62,25 +52,28 @@ def save_all_dinos(dinos_data: dict[str, Any]) -> None:
     cursor = connection.cursor()
 
     for name, data in dinos_data.items():
-        cursor.execute("""
+        cursor.execute(
+            """
             INSERT OR REPLACE INTO dinosaurs (
                 name, type, golden_chest, totems,
                 lvl_1, lvl_2, lvl_3, lvl_4, lvl_5, lvl_6
             )
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (
-            name,
-            data["type"],
-            # Converting True/False to 1/0 for SQLite
-            1 if data["golden_chest"] else 0,
-            data["totems"],
-            data["levels"]["1"],
-            data["levels"]["2"],
-            data["levels"]["3"],
-            data["levels"]["4"],
-            data["levels"]["5"],
-            data["levels"]["6"]
-        ))
+        """,
+            (
+                name,
+                data["type"],
+                # Converting True/False to 1/0 for SQLite
+                1 if data["golden_chest"] else 0,
+                data["totems"],
+                data["levels"]["1"],
+                data["levels"]["2"],
+                data["levels"]["3"],
+                data["levels"]["4"],
+                data["levels"]["5"],
+                data["levels"]["6"],
+            ),
+        )
 
     connection.commit()
     connection.close()
