@@ -18,7 +18,8 @@ This project is a showcase of a professional development workflow, specifically 
 
 - **Totem Progression Logic:** Automatically calculates "Effective Totems" based on owned dinosaurs (1 totem per 63 value units).
 - **Golden Chest Roadmap:** Precisely calculates the total value of level 1 units needed to reach the Golden Chest, accounting for the "carry-over" effect (refilling the enclosure after losing level 6 units).
-- **Smart Data Persistence:** Automatically saves/loads state from dino-data.json with a new "Verify Status" UI flow to save time.
+- **Smart SQLite Persistence:** Automatically saves/loads state from a relational SQLite database with an optimized `INSERT OR REPLACE` (UPSERT) mechanism.
+- **Auto-Seeding Mechanism:** If the database is completely empty on startup, the application automatically initializes and seeds itself using a predefined dataset of 40+ dinosaurs.
 - **Dino Enclosure Monitoring:** Detects "Full Enclosure" status (at least one dinosaur of each level from 1 to 6).
 - **Comprehensive Testing:** Unit tests for math logic, UI mock tests, and main flow integration tests.
   
@@ -32,12 +33,13 @@ DinoPark/
 │       ├── main.py          # Application entry point (orchestrator)
 │       ├── config.py        # Constants, point thresholds and game balance
 │       ├── data.py          # Loading, filtering, and validating JSON
-│       ├── dino-data.json   # Dinosaur Database
+│       ├── constants.py     # Application constants and default 40+ dinosaur dataset
+|       |── db_setup.py      # SQLite Database initialization schema script
 │       ├── logic.py         # Math Engine (Totems, Golden Chest)
 │       └── ui.py            # I/O support and console interface
 │
 ├── tests/
-│   ├── test_data.py         # File loading and validation tests
+│   ├── test_data.py         # Database mock tests using unittest.mock
 │   ├── test_integration.py  # Inter-module flow tests
 │   ├── test_logic.py        # Unit tests of formulas and calculations
 │   ├── test_main.py         # Tests mocking the main loop of the program
@@ -68,7 +70,7 @@ Every push and pull request must pass the pipeline.
 
 Quality is baked into the project:
 - **Pytest:** Runs all unit and integration tests.
-- **Mocks:** Uses unittest.mock to simulate user input and file system operations without side effects.
+- **Database Mocking:** Uses `unittest.mock.MagicMock` to patch `sqlite3.connect` interfaces, testing full structural data parsing without hitting the physical disk.
 - **Static Analysis:** mypy ensures strict type safety.
 - **Linting:** ruff enforces industry-standard Python formatting.
 
@@ -89,6 +91,7 @@ pytest
 
 ## 🛠️ Technical Stack
 - **Language:** Python 3.12+
+- **Database Engine:** SQLite 3
 - **Architecture:** Modular, layered design (UI → Logic → Data)
 - **Testing Framework:** Pytest
 - **Static Analysis:** mypy
@@ -100,16 +103,16 @@ pytest
 The application follows a simple, user-friendly workflow:
 
 1. **Choose Dinosaur**  
-   The user selects a dinosaur from the list.
+    The user selects a dinosaur from the list.
 
-2. **Check Existing Data**  
-   If the dinosaur already has saved levels, the app displays them and asks whether to update.
+2. **Check Existing DB Data**
+    The application queries the SQLite table. If the dinosaur already has a state saved, it fetches it and triggers a "Verify Status" flow.
 
 3. **Enter Levels (6 → 1)**  
-   The user enters the number of units for each level.
+    The user enters the number of units for each level.
 
-4. **Save to JSON**  
-   All levels for the selected dinosaur are saved to `dino-data.json`.
+4. **Save to SQLite**  
+    Data is updated in the dinosaurs table using SQL UPSERT logic.
 
 5. **Calculate Totem Progress**  
    - Convert all levels to Level 1 equivalents using exponential scaling.
@@ -145,71 +148,32 @@ git clone https://github.com/KKasjan/DinoPark.git
 ```Bash
 python -m dinopark.main
 ```
+**Set up the Database Schema:**
+Before running the application for the first time, execute the initialization script to prepare the database:
 
-## 📄 Example dino-data.json
+```Bash
+$env:PYTHONPATH="src"
+python -m dinopark.db_setup
+```
+**Run the script:**
 
-This file defines all dinosaurs available in the calculator.
-It must be located in:
-
-src/dinopark/dino-data.json
-
-Each dinosaur entry must contain:
-- **type** — category or description (not used in calculations)
-- **golden_chest** — bonus flag (0 or 1)
-- **levels** — dictionary of all dinosaur levels, where:
-    - keys are strings ("6", "5", "4"…)
-    - values are integers representing how many units you own
-
-### ✔ Data Schema (dino-data.json)
-
-```json
-{
-    "ammonite": {
-        "type": "herbivore",
-        "golden_chest": true,
-        "levels": {
-            "6": 0,
-            "5": 0,
-            "4": 0,
-            "3": 0,
-            "2": 0,
-            "1": 0
-        }
-    },
-    "t_rex": {
-        "type": "carnivore",
-        "golden_chest": false,
-        "levels": {
-            "6": 0,
-            "5": 0,
-            "4": 0,
-            "3": 0,
-            "2": 0,
-            "1": 0
-        }
-    }
-}
+```Bash
+$env:PYTHONPATH="src"
+python -m dinopark.main
 ```
 
-### 🔍 Notes
+## 💾 Relational Database Schema (SQLite)
 
-- Level keys must be strings, because JSON does not support numeric keys.
-- You can add more dinosaurs by adding new top‑level entries.
-- You can add more levels (e.g., "7") — the app will automatically detect them thanks to dynamic UI.
-- If any required field is missing, the app will stop and show a validation error.
+The backend data architecture uses a relational structure defined in dinopark.db within the dinosaurs table.
 
-###  🧪 Validation
+**Table Definition**
 
-On startup, the app checks:
-- whether the file exists,
-- whether each dinosaur contains type, golden_chest, and levels,
-- whether levels is a dictionary.
+- **name (TEXT, PRIMARY KEY)** — The unique identifier of the dinosaur (e.g., ammonite).
+- **type (TEXT)** — Dinosaur category (e.g., herbivore, carnivore).
+- **golden_chest (INTEGER)** — Boolean flag stored as 1 (True) or 0 (False).
+- **totems (INTEGER)** — Number of totems unlocked.
+- **lvl_1 to lvl_6 (INTEGER)** — Count of units available at each level tier.
 
-If validation fails, you’ll see:
-
-```text
-Invalid JSON structure. Fix dino-data.json and try again.
-```
 
 ## 🔮 Future Enhancements
 
@@ -237,6 +201,6 @@ Invalid JSON structure. Fix dino-data.json and try again.
 
 [x] Complex Golden Chest carry-over logic.
 
-[x] UI Totem verification
+[x] Migrate persistence layer from JSON to relational SQLite database.
 
 [ ] Add a Graphical User Interface (GUI) or a web-based dashboard.
