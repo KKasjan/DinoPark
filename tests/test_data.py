@@ -1,6 +1,4 @@
-import json
-from pathlib import Path
-from unittest.mock import mock_open, patch
+from unittest.mock import MagicMock, patch
 
 import pytest  # noqa: F401
 
@@ -12,26 +10,14 @@ from dinopark.data import load_all_dinos, validate_park_data
 
 
 def test_load_all_dinos_converts_keys_to_int() -> None:
-    fake_json: str = json.dumps(
-        {
-            "ammonite": {
-                "type": "herbivore",
-                "golden_chest": False,
-                "totems": 1,
-                "levels": {"1": 1, "2": 0, "3": 1, "4": 1, "5": 1, "6": 0},
-            }
-        }
-    )
+    fake_db_row = ("ammonite", "herbivore", 0, 1, 1, 0, 1, 1, 1, 0)
 
-    with (
-        # Patch DATA_FILE → pretend it points to "fake.json"
-        patch("dinopark.data.DATA_FILE", Path("fake.json")),
-        # Patch Path.exists → pretend that the file exists
-        patch("pathlib.Path.exists", return_value=True),
-        # Patch open → return fake_json
-        patch("pathlib.Path.open", mock_open(read_data=fake_json)),
-    ):
-        data: dict[str, dict] = load_all_dinos()
+    mock_connect = MagicMock()
+    mock_cursor = mock_connect.cursor.return_value
+    mock_cursor.fetchall.return_value = [fake_db_row]
+
+    with patch("sqlite3.connect", return_value=mock_connect):
+        data = load_all_dinos()
 
     expected_levels = {"1", "2", "3", "4", "5", "6"}
     assert set(data["ammonite"]["levels"].keys()) == expected_levels

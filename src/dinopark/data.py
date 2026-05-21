@@ -1,45 +1,103 @@
-import json
+import sqlite3
 from typing import Any
 
-from dinopark.config import DATA_FILE
+from dinopark.constants import DEFAULT_DINOSAURS
+from dinopark.db_setup import DB_PATH
 
 # ---------------------------------------
-# LOADING & SAVING
+# LOADING & SAVING (SQLite)
 # ---------------------------------------
 
 
-def load_all_dinos() -> dict[str, dict[str, Any]]:
+def load_all_dinos() -> dict[str, Any]:
     """
-    Loads dinosaur data from JSON.
-    Performs ONLY raw loading — no structure assumptions.
-    Validation happens separately in validate_park_data().
+    Fetches all dinosaurs from the SQLite database.
+    If the database is empty, initializes it with default startup data
+    from constants.py.
     """
-    # Checking if the file exists at all
-    if not DATA_FILE.exists():
-        return {}
+    connection = sqlite3.connect(DB_PATH)
+    cursor = connection.cursor()
 
-    try:
-        with DATA_FILE.open("r", encoding="utf-8") as f:
-            data = json.load(f)
-    except json.JSONDecodeError:
-        print("Error: dino-data.json is corrupted or invalid JSON.")
-        return {}
+    # Retrieving all records from the dinosaurs table
+    cursor.execute("""
+        SELECT name, type, golden_chest, totems,
+               lvl_1, lvl_2, lvl_3, lvl_4, lvl_5, lvl_6
+        FROM dinosaurs
+    """)
+    rows = cursor.fetchall()
 
-    # Data must be a dict[str, dict]
-    if not isinstance(data, dict):
-        print("Error: dino-data.json must contain a dictionary at top level.")
-        return {}
+    if not rows:
+        connection.close()
+        save_all_dinos(DEFAULT_DINOSAURS)
+        return DEFAULT_DINOSAURS
 
-    return data
+    connection.close()
+
+    dinos_dict: dict[str, Any] = {}
+
+    for row in rows:
+        (name, dino_type, golden_chest, totems, l1, l2, l3, l4, l5, l6) = row
+
+        # Reconstructs the dictionary structure
+        # (changing 1/0 from the database to True/False in Python)
+        dinos_dict[name] = {
+            "type": dino_type,
+            "golden_chest": bool(golden_chest),
+            "totems": totems,
+            "levels": {"1": l1, "2": l2, "3": l3, "4": l4, "5": l5, "6": l6},
+        }
+
+    return dinos_dict
 
 
-def save_all_dinos(data: dict[str, dict[str, Any]]) -> None:
+def save_all_dinos(dinos_data: dict[str, Any]) -> None:
     """
-    Saves the entire dinosaur dataset back to dino-data.json
+    Saves or updates the dinosaurs dictionary structure in the SQLite database
+    using a safe INSERT OR REPLACE (UPSERT) mechanism.
     """
+    connection = sqlite3.connect(DB_PATH)
+    cursor = connection.cursor()
 
-    with DATA_FILE.open("w", encoding="utf-8") as f:
-        json.dump(data, f, indent=4)
+    for name, data in dinos_data.items():
+        levels = data["levels"]
+
+        l1 = levels.get(1, levels.get("1", 0))
+        l2 = levels.get(2, levels.get("2", 0))
+        l3 = levels.get(3, levels.get("3", 0))
+        l4 = levels.get(4, levels.get("4", 0))
+        l5 = levels.get(5, levels.get("5", 0))
+        l6 = levels.get(6, levels.get("6", 0))
+
+        cursor.execute(
+            """
+            INSERT OR REPLACE INTO dinosaurs (
+                name, type, golden_chest, totems,
+                lvl_1, lvl_2, lvl_3, lvl_4, lvl_5, lvl_6
+            )
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+            (
+                name,
+                data["type"],
+                # Converting True/False to 1/0 for SQLite
+                1 if data["golden_chest"] else 0,
+                data["totems"],
+                l1,
+                l2,
+                l3,
+                l4,
+                l5,
+                l6,
+            ),
+        )
+
+    connection.commit()
+    connection.close()
+
+
+# ---------------------------------------
+# VALIDATION (Business Rules)
+# ---------------------------------------
 
 
 def validate_park_data(data: Any) -> bool:
